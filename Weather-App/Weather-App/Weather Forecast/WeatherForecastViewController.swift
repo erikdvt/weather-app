@@ -5,15 +5,24 @@
 //  Created by Erik Egers on 2022/04/21.
 //
 
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class WeatherForecastViewController: UIViewController {
+    
+    private lazy var viewModel = WeatherForecastViewModel(delegate: self,
+                                                          repository: WeatherForecastRepository())
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        viewModel.fetchWeather()
+        viewModel.fetchForecast()
     }
-
 
 }
 
+extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
+    func showError(_ error: String) {
+        print(error)
+    }
+}

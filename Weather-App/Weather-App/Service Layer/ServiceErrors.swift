@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+enum CustomError: String, Error {
+    case invalidResponse
+    case invalidRequest
+    case invalidUrl
+    case invalidData
+    case internalError
+    case parsingError
+}
