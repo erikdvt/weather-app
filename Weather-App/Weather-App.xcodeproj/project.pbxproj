@@ -26,6 +26,7 @@
 		ABB4F0DA2815997D003142E0 /* FormattedForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4F0D92815997D003142E0 /* FormattedForecast.swift */; };
 		ABB4F0DC2816952F003142E0 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4F0DB2816952F003142E0 /* DoubleExtension.swift */; };
 		ABB4F0DE281697FA003142E0 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4F0DD281697FA003142E0 /* DateExtension.swift */; };
+		ABB4F0E02816BB26003142E0 /* ConditionClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4F0DF2816BB26003142E0 /* ConditionClassifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		ABB4F0D92815997D003142E0 /* FormattedForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedForecast.swift; sourceTree = "<group>"; };
 		ABB4F0DB2816952F003142E0 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		ABB4F0DD281697FA003142E0 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		ABB4F0DF2816BB26003142E0 /* ConditionClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionClassifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 				AB8F494F2812AEE7001F83FA /* CurrentWeatherModel.swift */,
 				ABB4F0D7281598E0003142E0 /* FormattedCurrent.swift */,
 				ABB4F0D92815997D003142E0 /* FormattedForecast.swift */,
+				ABB4F0DF2816BB26003142E0 /* ConditionClassifier.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				AB8F494728129E7C001F83FA /* WeatherForecastViewModel.swift in Sources */,
 				ABB4F0DA2815997D003142E0 /* FormattedForecast.swift in Sources */,
 				AB31D63B2811995200945967 /* SceneDelegate.swift in Sources */,
+				ABB4F0E02816BB26003142E0 /* ConditionClassifier.swift in Sources */,
 				ABB4F0D8281598E0003142E0 /* FormattedCurrent.swift in Sources */,
 				ABB4F0DC2816952F003142E0 /* DoubleExtension.swift in Sources */,
 				AB8F49542812B10B001F83FA /* Constants.swift in Sources */,

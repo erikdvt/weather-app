@@ -41,6 +41,11 @@ class WeatherForecastViewController: UIViewController {
         viewModel.fetchWeather()
         viewModel.fetchForecast()
     }
+    
+    @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {
+        viewModel.flipTheme()
+    }
+    
 }
 
 extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
@@ -53,7 +58,7 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
-        currentCondition.text = formattedData.description
+        currentCondition.text = formattedData.condition.rawValue.capitalized
     }
     
     func displayForecast(_ formattedData: FormattedForecast) {
@@ -62,6 +67,11 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         forecastTempThree.text = formattedData.weather[2].temp
         forecastTempFour.text = formattedData.weather[3].temp
         forecastTempFive.text = formattedData.weather[4].temp
+        forecastConditionOne.image = UIImage(named: formattedData.weather[0].condition.rawValue)
+        forecastConditionTwo.image = UIImage(named: formattedData.weather[1].condition.rawValue)
+        forecastConditionThree.image = UIImage(named: formattedData.weather[2].condition.rawValue)
+        forcastConditionFour.image = UIImage(named: formattedData.weather[3].condition.rawValue)
+        forecastConditionFive.image = UIImage(named: formattedData.weather[4].condition.rawValue)
     }
     
     func displayDays(_ days: [String]) {
@@ -70,5 +80,10 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         forecastDayThree.text = days[2]
         forecastDayFour.text = days[3]
         forecastDayFive.text = days[4]
+    }
+    
+    func reloadBackground(colour: String, image: String) {
+        self.view.backgroundColor = UIColor(named: colour)
+        currentConditionBackground.image = UIImage(named: image)
     }
 }
