@@ -37,10 +37,9 @@ class WeatherForecastViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getDaysOfTheWeek()
         viewModel.fetchWeather()
         viewModel.fetchForecast()
-        //viewModel.formatCurrent()
-        //viewModel.formatForecast()
     }
 }
 
@@ -63,5 +62,13 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         forecastTempThree.text = formattedData.weather[2].temp
         forecastTempFour.text = formattedData.weather[3].temp
         forecastTempFive.text = formattedData.weather[4].temp
+    }
+    
+    func displayDays(_ days: [String]) {
+        forecastDayOne.text = days[0]
+        forecastDayTwo.text = days[1]
+        forecastDayThree.text = days[2]
+        forecastDayFour.text = days[3]
+        forecastDayFive.text = days[4]
     }
 }

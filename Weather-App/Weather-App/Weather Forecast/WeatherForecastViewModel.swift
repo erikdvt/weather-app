@@ -9,6 +9,7 @@ import Foundation
 
 protocol WeatherForecastViewModelDelegate: AnyObject {
     func showError(_ error: String)
+    func displayDays(_ days: [String])
     func displayCurrent(_ formattedData: FormattedCurrent)
     func displayForecast(_ formattedData: FormattedForecast)
 }
@@ -24,6 +25,12 @@ class WeatherForecastViewModel {
          repository: WeatherForecastRepositoryType) {
         self.delegate = delegate
         self.repository = repository
+    }
+    
+    func getDaysOfTheWeek() {
+        let days = Date().dayofTheWeek
+        print(days)
+        delegate?.displayDays(days)
     }
     
     func fetchWeather() {
