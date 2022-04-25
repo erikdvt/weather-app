@@ -23,8 +23,8 @@
                                     <constraint firstAttribute="width" secondItem="vnu-u6-801" secondAttribute="height" multiplier="360:320" id="lvX-8o-361"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SUNNY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nG7-WI-9Do" userLabel="Description">
-                                <rect key="frame" x="178" y="174" width="58" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CLOUDY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nG7-WI-9Do" userLabel="Description">
+                                <rect key="frame" x="173.5" y="174" width="67.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -228,6 +228,29 @@
                             <constraint firstItem="m3M-OC-tzO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zXs-9c-ZBT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="currentCondition" destination="nG7-WI-9Do" id="e4Y-i5-rVQ"/>
+                        <outlet property="currentConditionBackground" destination="vnu-u6-801" id="Skk-bV-LRy"/>
+                        <outlet property="currentMaxTemp" destination="UPN-xy-QAc" id="PLz-qJ-DI7"/>
+                        <outlet property="currentMinTemp" destination="NOS-lM-DcX" id="Few-3C-8KN"/>
+                        <outlet property="currentTemp" destination="cKK-6J-dr0" id="RcE-KA-pvj"/>
+                        <outlet property="currentTempBig" destination="m3M-OC-tzO" id="GYh-ry-zkv"/>
+                        <outlet property="forcastConditionFour" destination="br5-xj-MJL" id="vKN-nQ-Pjw"/>
+                        <outlet property="forecastConditionFive" destination="51J-Rn-VQs" id="LIy-Ml-jXl"/>
+                        <outlet property="forecastConditionOne" destination="uya-Lo-PnS" id="gWP-5e-fi9"/>
+                        <outlet property="forecastConditionThree" destination="6z5-jF-pJy" id="hF6-qR-aVV"/>
+                        <outlet property="forecastConditionTwo" destination="C04-CC-L5Q" id="9QN-gc-MxG"/>
+                        <outlet property="forecastDayFive" destination="FlY-6Y-JGo" id="QBP-7L-jcm"/>
+                        <outlet property="forecastDayFour" destination="sBw-Pe-dgg" id="qQM-ra-FrL"/>
+                        <outlet property="forecastDayOne" destination="9LN-Yd-DYY" id="WaO-ob-16r"/>
+                        <outlet property="forecastDayThree" destination="bT3-Yz-Doo" id="Y9q-yp-GI3"/>
+                        <outlet property="forecastDayTwo" destination="x3d-6r-1iT" id="mVR-vQ-1mm"/>
+                        <outlet property="forecastTempFive" destination="eeS-2o-d9D" id="yge-di-VZt"/>
+                        <outlet property="forecastTempFour" destination="rxW-n5-tOj" id="25S-mn-fkp"/>
+                        <outlet property="forecastTempOne" destination="16A-J9-Wba" id="BjD-Ad-UNk"/>
+                        <outlet property="forecastTempThree" destination="NSn-oE-agw" id="p4d-3c-ZNH"/>
+                        <outlet property="forevastTempTwo" destination="d4h-EZ-T3i" id="0Ai-Ns-9Ni"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
