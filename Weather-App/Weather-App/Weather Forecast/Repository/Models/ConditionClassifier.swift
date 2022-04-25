@@ -27,7 +27,7 @@ enum ConditionRanges {
 }
 
 enum Condition: String {
-    case sunny = "Sunny"
-    case cloudy = "Cloudy"
-    case rainy = "Rainy"
+    case sunny
+    case cloudy
+    case rainy
 }

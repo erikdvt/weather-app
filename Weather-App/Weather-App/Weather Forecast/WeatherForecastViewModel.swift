@@ -12,6 +12,7 @@ protocol WeatherForecastViewModelDelegate: AnyObject {
     func displayDays(_ days: [String])
     func displayCurrent(_ formattedData: FormattedCurrent)
     func displayForecast(_ formattedData: FormattedForecast)
+    func reloadBackground(colour: String, image: String)
 }
 
 class WeatherForecastViewModel {
@@ -20,6 +21,8 @@ class WeatherForecastViewModel {
     private var forecast: FiveDayForecastModel?
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
+    private var theme: Theme = Theme.forest
+    private var currentCondition: Condition = Condition.sunny
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType) {
@@ -67,8 +70,10 @@ class WeatherForecastViewModel {
         guard let id: Int = currentWeather?.weather[0].id else { return }
         
         let formattedData = FormattedCurrent(currentTemp, minTemp, maxTemp, id)
+        currentCondition = formattedData.condition
         
         delegate?.displayCurrent(formattedData)
+        changeBackground()
     }
     
     func formatForecast() {
@@ -81,6 +86,45 @@ class WeatherForecastViewModel {
         }
         
         delegate?.displayForecast(formattedData)
-        
+        changeBackground()
     }
+    
+    func flipTheme() {
+        switch theme {
+        case .forest:
+            theme = .sea
+        case .sea:
+            theme = .forest
+        }
+        
+        changeBackground()
+    }
+    
+    func changeBackground() {
+        switch theme {
+        case .forest:
+            switch currentCondition {
+            case .sunny:
+                delegate?.reloadBackground(colour: "Sunny", image: "forest_sunny")
+            case .cloudy:
+                delegate?.reloadBackground(colour: "Cloudy", image: "forest_cloudy")
+            case .rainy:
+                delegate?.reloadBackground(colour: "Rainy", image: "forest_rainy")
+            }
+        case .sea:
+            switch currentCondition {
+            case .sunny:
+                delegate?.reloadBackground(colour: "Sunny", image: "sea_sunny")
+            case .cloudy:
+                delegate?.reloadBackground(colour: "Cloudy", image: "sea_cloudy")
+            case .rainy:
+                delegate?.reloadBackground(colour: "Rainy", image: "sea_rainy")
+            }
+        }
+    }
+}
+
+enum Theme {
+    case forest
+    case sea
 }
