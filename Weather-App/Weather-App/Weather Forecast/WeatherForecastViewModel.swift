@@ -29,7 +29,6 @@ class WeatherForecastViewModel {
     
     func getDaysOfTheWeek() {
         let days = Date().dayofTheWeek
-        print(days)
         delegate?.displayDays(days)
     }
     
@@ -65,9 +64,9 @@ class WeatherForecastViewModel {
         guard let currentTemp: Double = currentWeather?.main.temp else { return }
         guard let minTemp: Double = currentWeather?.main.tempMin else { return }
         guard let maxTemp: Double = currentWeather?.main.tempMax else { return }
-        guard let description: String = currentWeather?.weather[0].weatherDescription else { return }
+        guard let id: Int = currentWeather?.weather[0].id else { return }
         
-        let formattedData = FormattedCurrent(currentTemp, minTemp, maxTemp, description)
+        let formattedData = FormattedCurrent(currentTemp, minTemp, maxTemp, id)
         
         delegate?.displayCurrent(formattedData)
     }
@@ -77,7 +76,7 @@ class WeatherForecastViewModel {
         guard let weatherList: [List] = forecast?.list else { return }
         
         for weatherItem in weatherList {
-            let weatherI = WeatherFor(weatherItem.main.temp, weatherItem.weather[0].weatherDescription)
+            let weatherI = WeatherFor(temp: weatherItem.main.temp, id: weatherItem.weather[0].id)
             formattedData.weather.append(weatherI)
         }
         

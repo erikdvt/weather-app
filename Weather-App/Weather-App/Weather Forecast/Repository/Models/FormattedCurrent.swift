@@ -11,12 +11,12 @@ struct FormattedCurrent {
     let currentTemp: String
     let minTemp: String
     let maxTemp: String
-    let description: String
+    let condition: Condition
     
-    init(_ curT: Double, _ minT: Double, _ maxT: Double, _ desc: String) {
+    init(_ curT: Double, _ minT: Double, _ maxT: Double, _ id: Int) {
         self.currentTemp = curT.toString()
         self.minTemp = minT.toString()
         self.maxTemp = maxT.toString()
-        self.description = desc
+        self.condition = ConditionClassifier.classifyCondition(by: id)
     }
 }

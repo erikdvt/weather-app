@@ -17,10 +17,10 @@ struct FormattedForecast {
 
 struct WeatherFor {
     let temp: String
-    let description: String
+    let condition: Condition
     
-    init(_ tempD: Double, _ condition: String) {
-        self.temp = tempD.toString()
-        self.description = condition
+    init(temp: Double, id: Int) {
+        self.temp = temp.toString()
+        self.condition = ConditionClassifier.classifyCondition(by: id)
     }
 }

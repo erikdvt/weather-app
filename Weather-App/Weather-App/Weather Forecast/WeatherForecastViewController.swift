@@ -35,12 +35,25 @@ class WeatherForecastViewController: UIViewController {
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
                                                           repository: WeatherForecastRepository())
 
+    private var theme = "Forest"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
         viewModel.fetchWeather()
         viewModel.fetchForecast()
     }
+    
+    @IBAction func changeThemeButtonPressed(_ sender: UIButton) {
+        if theme == "Forest" {
+            theme = "Other"
+        } else {
+            theme = "Forest"
+        }
+        
+        reloadBackground()
+    }
+    
 }
 
 extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
@@ -53,7 +66,7 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
-        currentCondition.text = formattedData.description
+        currentCondition.text = formattedData.condition.rawValue
     }
     
     func displayForecast(_ formattedData: FormattedForecast) {
@@ -70,5 +83,9 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         forecastDayThree.text = days[2]
         forecastDayFour.text = days[3]
         forecastDayFive.text = days[4]
+    }
+    
+    func reloadBackground() {
+        
     }
 }
