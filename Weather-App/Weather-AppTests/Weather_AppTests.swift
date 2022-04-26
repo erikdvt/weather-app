@@ -10,27 +10,82 @@ import XCTest
 
 class Weather_AppTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    private var viewModel: WeatherForecastViewModel!
+    private var delegate: MockDelegate!
+    private var repository: MockRepository!
+    
+    override func setUp() {
+        super.setUp()
+        delegate = MockDelegate()
+        repository = MockRepository()
+        viewModel = WeatherForecastViewModel(delegate: delegate, repository: repository)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testFetchWeatherReturnsSuccess() {
+        XCTAssert(true)
     }
+}
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+class MockRepository: WeatherForecastRepositoryType {
+    var shouldFail = false
+    
+    func fetchFiveDayForecast(completion: @escaping ((Result<FiveDayForecastModel, CustomError>) -> Void)) {
+        if shouldFail {
+            completion(.failure(.internalError))
+        } else {
+            completion(.success(self.mockForecastData()))
         }
     }
+    
+    func fetchCurrentWeather(completion: @escaping ((Result<CurrentWeatherModel, CustomError>) -> Void)) {
+        if shouldFail {
+            completion(.failure(.internalError))
+        } else {
+            completion(.success(self.mockCurrentData()))
+        }
+    }
+    
+    private func mockCurrentData() -> CurrentWeatherModel {
+        let mockData: CurrentWeatherModel = CurrentWeatherModel(coord: Coord(lon: 4.9041, lat: 52.3676), weather: [Weather(id: 803)], main: Main(temp: 10.37, tempMin: 8.83, tempMax: 11.63), id: 2759794, name: "Amsterdam")
+        return mockData
+    }
+    
+    private func mockForecastData() -> FiveDayForecastModel {
+        let mockData = FiveDayForecastModel(list: [List(main: Mainf(temp: 9.93), weather: [Weatherf(id: 803)]),
+                                                   List(main: Mainf(temp: 8.88), weather: [Weatherf(id: 804)]),
+                                                   List(main: Mainf(temp: 7.91), weather: [Weatherf(id: 804)]),
+                                                   List(main: Mainf(temp: 6.74), weather: [Weatherf(id: 803)]),
+                                                   List(main: Mainf(temp: 7.93), weather: [Weatherf(id: 802)])],
+                                            city: City(id: 2759794,
+                                                       name: "Amsterdam",
+                                                       coord: Coordf(lat: 52.3676, lon: 4.9041)))
+        return mockData
+    }
+}
 
+class MockDelegate: WeatherForecastViewModelDelegate {
+    var showErrorCalled = false
+    var displayDaysCalled = false
+    var displayCurrentCalled = false
+    var displayForecastCalled = false
+    var reloadBackgroundCalled = false
+    
+    var current: FormattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
+    
+    func showError(_ error: String) {
+        showErrorCalled = true
+    }
+    func displayDays(_ days: [String]) {
+        displayDaysCalled  = true
+    }
+    func displayCurrent(_ formattedData: FormattedCurrent) {
+        displayCurrentCalled  = true
+        current = formattedData
+    }
+    func displayForecast(_ formattedData: FormattedForecast) {
+        displayForecastCalled = true
+    }
+    func reloadBackground(colour: String, image: String) {
+        reloadBackgroundCalled = true
+    }
 }
