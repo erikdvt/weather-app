@@ -26,6 +26,7 @@ class WeatherForecastViewModel {
     private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
     private var formattedForecast = FormattedForecast()
     private let locationService: LocationServiceType
+    private let testCoord = Coord(lon: -33.9249, lat: 18.4241)
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType,
@@ -45,7 +46,7 @@ class WeatherForecastViewModel {
     }
     
     func fetchWeather() {
-        repository.fetchCurrentWeather(completion: { [weak self] result in
+        repository.fetchCurrentWeather(coordinates: testCoord, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
@@ -60,7 +61,7 @@ class WeatherForecastViewModel {
     }
     
     func fetchForecast() {
-        repository.fetchFiveDayForecast(completion: { [weak self] result in
+        repository.fetchFiveDayForecast(coordinates: testCoord, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):

@@ -11,22 +11,22 @@ typealias FiveDayForecastResult = (Result<FiveDayForecastModel, CustomError>) ->
 typealias CurrentWeatherResult = (Result<CurrentWeatherModel, CustomError>) -> Void
 
 protocol WeatherForecastRepositoryType: AnyObject {
-    func fetchCurrentWeather(completion: @escaping(CurrentWeatherResult))
-    func fetchFiveDayForecast(completion: @escaping(FiveDayForecastResult))
+    func fetchCurrentWeather(coordinates: Coord, completion: @escaping(CurrentWeatherResult))
+    func fetchFiveDayForecast(coordinates: Coord, completion: @escaping(FiveDayForecastResult))
 }
 
 class WeatherForecastRepository: WeatherForecastRepositoryType {
     
-    func fetchCurrentWeather(completion: @escaping(CurrentWeatherResult)) {
-        makeRequest(url: buildURL(base: Constants.currentWeatherURL), model: CurrentWeatherModel.self, completion: completion)
+    func fetchCurrentWeather(coordinates: Coord, completion: @escaping(CurrentWeatherResult)) {
+        makeRequest(url: buildURL(base: Constants.currentWeatherURL, coordinates: coordinates), model: CurrentWeatherModel.self, completion: completion)
     }
     
-    func fetchFiveDayForecast(completion: @escaping(FiveDayForecastResult)) {
-        makeRequest(url: buildURL(base: Constants.fiveDayForecastURL), model: FiveDayForecastModel.self, completion: completion)
+    func fetchFiveDayForecast(coordinates: Coord, completion: @escaping(FiveDayForecastResult)) {
+        makeRequest(url: buildURL(base: Constants.fiveDayForecastURL, coordinates: coordinates), model: FiveDayForecastModel.self, completion: completion)
     }
     
-    private func buildURL(base: String) -> URL? {
-        let queries = "lat=-33.9249&lon=18.4241"
+    private func buildURL(base: String, coordinates: Coord) -> URL? {
+        let queries = String(format: "lat=%.4f&lon=%.4f", coordinates.lat, coordinates.lon)
         let urlString = "\(base)&\(queries)"
         
         return (URL(string: urlString))
