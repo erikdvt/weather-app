@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
@@ -32,14 +33,22 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var forecastTempFour: UILabel!
     @IBOutlet weak var forecastTempFive: UILabel!
     
+    
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
-                                                          repository: WeatherForecastRepository())
+                                                          repository: WeatherForecastRepository(),
+                                                          locationService: LocationService())
 
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
         viewModel.fetchWeather()
         viewModel.fetchForecast()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getLocation()
     }
     
     @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {

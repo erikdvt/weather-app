@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol WeatherForecastViewModelDelegate: AnyObject {
     func showError(_ error: String)
@@ -24,16 +25,23 @@ class WeatherForecastViewModel {
     private var forecast: FiveDayForecastModel?
     private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
     private var formattedForecast = FormattedForecast()
+    private let locationService: LocationServiceType
     
     init(delegate: WeatherForecastViewModelDelegate?,
-         repository: WeatherForecastRepositoryType) {
+         repository: WeatherForecastRepositoryType,
+         locationService: LocationService) {
         self.delegate = delegate
         self.repository = repository
+        self.locationService = LocationService()
     }
     
     func getDaysOfTheWeek() {
         let days = Date().dayofTheWeek
         delegate?.displayDays(days)
+    }
+    
+    func getLocation() {
+        locationService.fetchLocationData()
     }
     
     func fetchWeather() {
