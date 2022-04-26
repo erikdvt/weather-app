@@ -23,12 +23,11 @@ class WeatherForecastViewModel: NSObject {
     private var theme: Theme = Theme.forest
     private var weather: CurrentWeatherModel?
     private var forecast: FiveDayForecastModel?
-    private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
+    private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800, "City")
     private var formattedForecast = FormattedForecast()
-    private let testCoord = Coord(lon: -33.9249, lat: 18.4241)
+    private var coordinatesT = Coord(lon: -33.9249, lat: 18.4241)
     
     private let locationManager = CLLocationManager()
-    var coordinates: Coord = Coord(lon: 0.0, lat: 0.0)
     
     
     init(delegate: WeatherForecastViewModelDelegate?,
@@ -48,10 +47,11 @@ class WeatherForecastViewModel: NSObject {
     }
     
     func fetchWeather() {
-        repository.fetchCurrentWeather(coordinates: testCoord, completion: { [weak self] result in
+        repository.fetchCurrentWeather(coordinates: coordinatesT, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
+                    print(weather)
                     self?.weather = weather
                     self?.formatCurrent()
                     self?.showWeather()
@@ -63,7 +63,7 @@ class WeatherForecastViewModel: NSObject {
     }
     
     func fetchForecast() {
-        repository.fetchFiveDayForecast(coordinates: testCoord, completion: { [weak self] result in
+        repository.fetchFiveDayForecast(coordinates: coordinatesT, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
@@ -81,9 +81,10 @@ class WeatherForecastViewModel: NSObject {
         let currentTemp: Double = weather?.main.temp ?? 0.0
         let minTemp: Double = weather?.main.tempMin ?? 0.0
         let maxTemp: Double = weather?.main.tempMax ?? 0.0
+        let city: String = weather?.name ?? "City"
         let id: Int = weather?.weather[0].id ?? 0
         
-        formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id)
+        formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id, city)
     }
     
     func showWeather() {
@@ -134,7 +135,7 @@ class WeatherForecastViewModel: NSObject {
         case .sea:
             switch currentCondition {
             case .sunny:
-                delegate?.reloadBackground(colour: "Sunny", image: "sea_sunny")
+                delegate?.reloadBackground(colour: "SunnySea", image: "sea_sunny")
             case .cloudy:
                 delegate?.reloadBackground(colour: "Cloudy", image: "sea_cloudy")
             case .rainy:
@@ -163,8 +164,10 @@ extension WeatherForecastViewModel: CLLocationManagerDelegate {
 //        print("gotten location")
         
         if let location = locations.first {
-            coordinates = Coord(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
-            print(coordinates)
+            coordinatesT = Coord(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
+            print(coordinatesT)
+            fetchWeather()
+            fetchForecast()
         }
     }
     

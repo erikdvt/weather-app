@@ -32,6 +32,8 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var forecastTempThree: UILabel!
     @IBOutlet weak var forecastTempFour: UILabel!
     @IBOutlet weak var forecastTempFive: UILabel!
+    @IBOutlet weak var cityButtonTitle: UIButton!
+    
     
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
@@ -40,8 +42,8 @@ class WeatherForecastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
-        viewModel.fetchWeather()
-        viewModel.fetchForecast()
+//        viewModel.fetchWeather()
+//        viewModel.fetchForecast()
         
     }
     
@@ -66,6 +68,9 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
+        print( formattedData.city )
+        cityButtonTitle.setTitle(formattedData.city, for: .normal)
+//        cityButtonTitle.setTitle("Cape Town", for: .normal)
         currentCondition.text = formattedData.condition.rawValue.capitalized
     }
     

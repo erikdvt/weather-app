@@ -207,6 +207,12 @@
                                     <action selector="changeThemeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B4l-65-1Ay"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JsT-mB-5Rv">
+                                <rect key="frame" x="182" y="214.5" width="50" height="31"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="City"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="Sunny"/>
@@ -215,9 +221,11 @@
                             <constraint firstItem="ZIf-t5-6bb" firstAttribute="top" secondItem="95d-pq-ovz" secondAttribute="bottom" constant="30" id="730-9K-JTN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZIf-t5-6bb" secondAttribute="trailing" constant="20" id="80E-gu-4AB"/>
                             <constraint firstItem="ZIf-t5-6bb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="CW2-sH-UJ0"/>
+                            <constraint firstItem="JsT-mB-5Rv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DaL-Ni-PmQ"/>
                             <constraint firstItem="7aT-Sk-Ekk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Fab-7u-ePi"/>
                             <constraint firstItem="7aT-Sk-Ekk" firstAttribute="top" secondItem="vnu-u6-801" secondAttribute="bottom" constant="10" id="GqW-51-0rd"/>
                             <constraint firstItem="vnu-u6-801" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ihh-90-6bb"/>
+                            <constraint firstItem="JsT-mB-5Rv" firstAttribute="top" secondItem="nG7-WI-9Do" secondAttribute="bottom" constant="20" id="JbT-ZV-Qgh"/>
                             <constraint firstItem="nG7-WI-9Do" firstAttribute="top" secondItem="m3M-OC-tzO" secondAttribute="bottom" constant="8.5" id="Y4d-KQ-tkJ"/>
                             <constraint firstItem="x1q-Aq-0Ev" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bOW-RL-SHl"/>
                             <constraint firstItem="95d-pq-ovz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bpg-Kd-oUa"/>
@@ -232,6 +240,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cityButtonTitle" destination="JsT-mB-5Rv" id="jnL-zn-a9w"/>
                         <outlet property="currentCondition" destination="nG7-WI-9Do" id="e4Y-i5-rVQ"/>
                         <outlet property="currentConditionBackground" destination="vnu-u6-801" id="Skk-bV-LRy"/>
                         <outlet property="currentMaxTemp" destination="UPN-xy-QAc" id="PLz-qJ-DI7"/>
