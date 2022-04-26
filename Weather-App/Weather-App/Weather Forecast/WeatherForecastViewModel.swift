@@ -17,12 +17,13 @@ protocol WeatherForecastViewModelDelegate: AnyObject {
 
 class WeatherForecastViewModel {
     
-    private var currentWeather: CurrentWeatherModel?
-    private var forecast: FiveDayForecastModel?
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
     private var theme: Theme = Theme.forest
-    private var currentCondition: Condition = Condition.sunny
+    private var weather: CurrentWeatherModel?
+    private var forecast: FiveDayForecastModel?
+    private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
+    private var formattedForecast = FormattedForecast()
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType) {
@@ -40,8 +41,9 @@ class WeatherForecastViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
-                    self?.currentWeather = weather
+                    self?.weather = weather
                     self?.formatCurrent()
+                    self?.showWeather()
                 case .failure(let error):
                     self?.delegate?.showError(error.rawValue)
                 }
@@ -56,6 +58,7 @@ class WeatherForecastViewModel {
                 case .success(let weather):
                     self?.forecast = weather
                     self?.formatForecast()
+                    self?.showForecast()
                 case .failure(let error):
                     self?.delegate?.showError(error.rawValue)
                 }
@@ -63,20 +66,21 @@ class WeatherForecastViewModel {
         })
     }
     
-    func formatCurrent() {
-        guard let currentTemp: Double = currentWeather?.main.temp else { return }
-        guard let minTemp: Double = currentWeather?.main.tempMin else { return }
-        guard let maxTemp: Double = currentWeather?.main.tempMax else { return }
-        guard let id: Int = currentWeather?.weather[0].id else { return }
+    private func formatCurrent() {
+        let currentTemp: Double = weather?.main.temp ?? 0.0
+        let minTemp: Double = weather?.main.tempMin ?? 0.0
+        let maxTemp: Double = weather?.main.tempMax ?? 0.0
+        let id: Int = weather?.weather[0].id ?? 0
         
-        let formattedData = FormattedCurrent(currentTemp, minTemp, maxTemp, id)
-        currentCondition = formattedData.condition
-        
-        delegate?.displayCurrent(formattedData)
+        formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id)
+    }
+    
+    func showWeather() {
+        delegate?.displayCurrent(formattedCurrent)
         changeBackground()
     }
     
-    func formatForecast() {
+    private func formatForecast() {
         var formattedData = FormattedForecast()
         guard let weatherList: [List] = forecast?.list else { return }
         
@@ -85,7 +89,11 @@ class WeatherForecastViewModel {
             formattedData.weather.append(weatherI)
         }
         
-        delegate?.displayForecast(formattedData)
+        formattedForecast = formattedData
+    }
+    
+    func showForecast() {
+        delegate?.displayForecast(formattedForecast)
         changeBackground()
     }
     
@@ -101,6 +109,7 @@ class WeatherForecastViewModel {
     }
     
     func changeBackground() {
+        let currentCondition = formattedCurrent.condition
         switch theme {
         case .forest:
             switch currentCondition {
