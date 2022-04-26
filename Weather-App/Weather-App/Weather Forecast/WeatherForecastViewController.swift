@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
@@ -31,6 +32,9 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var forecastTempThree: UILabel!
     @IBOutlet weak var forecastTempFour: UILabel!
     @IBOutlet weak var forecastTempFive: UILabel!
+    @IBOutlet weak var cityButtonTitle: UIButton!
+    
+    
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
                                                           repository: WeatherForecastRepository())
@@ -38,8 +42,14 @@ class WeatherForecastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
-        viewModel.fetchWeather()
-        viewModel.fetchForecast()
+//        viewModel.fetchWeather()
+//        viewModel.fetchForecast()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getLocation()
     }
     
     @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {
@@ -58,6 +68,9 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
+        print( formattedData.city )
+        cityButtonTitle.setTitle(formattedData.city, for: .normal)
+//        cityButtonTitle.setTitle("Cape Town", for: .normal)
         currentCondition.text = formattedData.condition.rawValue.capitalized
     }
     

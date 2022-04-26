@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol WeatherForecastViewModelDelegate: AnyObject {
     func showError(_ error: String)
@@ -15,15 +16,19 @@ protocol WeatherForecastViewModelDelegate: AnyObject {
     func reloadBackground(colour: String, image: String)
 }
 
-class WeatherForecastViewModel {
+class WeatherForecastViewModel: NSObject {
     
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
     private var theme: Theme = Theme.forest
     private var weather: CurrentWeatherModel?
     private var forecast: FiveDayForecastModel?
-    private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
+    private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800, "City")
     private var formattedForecast = FormattedForecast()
+    private var coordinatesT = Coord(lon: -33.9249, lat: 18.4241)
+    
+    private let locationManager = CLLocationManager()
+    
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType) {
@@ -36,11 +41,17 @@ class WeatherForecastViewModel {
         delegate?.displayDays(days)
     }
     
+    func getLocation() {
+        setupLocation()
+        fetchLocationData()
+    }
+    
     func fetchWeather() {
-        repository.fetchCurrentWeather(completion: { [weak self] result in
+        repository.fetchCurrentWeather(coordinates: coordinatesT, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
+                    print(weather)
                     self?.weather = weather
                     self?.formatCurrent()
                     self?.showWeather()
@@ -52,7 +63,7 @@ class WeatherForecastViewModel {
     }
     
     func fetchForecast() {
-        repository.fetchFiveDayForecast(completion: { [weak self] result in
+        repository.fetchFiveDayForecast(coordinates: coordinatesT, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
@@ -70,9 +81,10 @@ class WeatherForecastViewModel {
         let currentTemp: Double = weather?.main.temp ?? 0.0
         let minTemp: Double = weather?.main.tempMin ?? 0.0
         let maxTemp: Double = weather?.main.tempMax ?? 0.0
+        let city: String = weather?.name ?? "City"
         let id: Int = weather?.weather[0].id ?? 0
         
-        formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id)
+        formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id, city)
     }
     
     func showWeather() {
@@ -123,7 +135,7 @@ class WeatherForecastViewModel {
         case .sea:
             switch currentCondition {
             case .sunny:
-                delegate?.reloadBackground(colour: "Sunny", image: "sea_sunny")
+                delegate?.reloadBackground(colour: "SunnySea", image: "sea_sunny")
             case .cloudy:
                 delegate?.reloadBackground(colour: "Cloudy", image: "sea_cloudy")
             case .rainy:
@@ -131,6 +143,38 @@ class WeatherForecastViewModel {
             }
         }
     }
+}
+
+extension WeatherForecastViewModel: CLLocationManagerDelegate {
+    
+    
+    func setupLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func fetchLocationData() {
+        
+        //LocationService.shared.locationManager.requestLocation()
+        
+        locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        print("gotten location")
+        
+        if let location = locations.first {
+            coordinatesT = Coord(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
+            print(coordinatesT)
+            fetchWeather()
+            fetchForecast()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+
 }
 
 enum Theme {

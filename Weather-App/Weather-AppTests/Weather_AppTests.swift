@@ -29,7 +29,7 @@ class Weather_AppTests: XCTestCase {
 class MockRepository: WeatherForecastRepositoryType {
     var shouldFail = false
     
-    func fetchFiveDayForecast(completion: @escaping ((Result<FiveDayForecastModel, CustomError>) -> Void)) {
+    func fetchFiveDayForecast(coordinates: Coord, completion: @escaping ((Result<FiveDayForecastModel, CustomError>) -> Void)) {
         if shouldFail {
             completion(.failure(.internalError))
         } else {
@@ -37,7 +37,7 @@ class MockRepository: WeatherForecastRepositoryType {
         }
     }
     
-    func fetchCurrentWeather(completion: @escaping ((Result<CurrentWeatherModel, CustomError>) -> Void)) {
+    func fetchCurrentWeather(coordinates: Coord, completion: @escaping ((Result<CurrentWeatherModel, CustomError>) -> Void)) {
         if shouldFail {
             completion(.failure(.internalError))
         } else {
@@ -70,7 +70,7 @@ class MockDelegate: WeatherForecastViewModelDelegate {
     var displayForecastCalled = false
     var reloadBackgroundCalled = false
     
-    var current: FormattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
+    var current: FormattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800, "City")
     
     func showError(_ error: String) {
         showErrorCalled = true

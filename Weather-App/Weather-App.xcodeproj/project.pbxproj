@@ -121,7 +121,7 @@
 		AB31D6372811995200945967 /* Weather-App */ = {
 			isa = PBXGroup;
 			children = (
-				AB8F494328129DB6001F83FA /* Service Layer */,
+				AB8F494328129DB6001F83FA /* Service */,
 				AB8F494428129DC0001F83FA /* Extensions */,
 				AB8F494528129DCF001F83FA /* Weather Forecast */,
 				AB8F49522812B0FB001F83FA /* Utilities */,
@@ -151,12 +151,12 @@
 			path = "Weather-AppUITests";
 			sourceTree = "<group>";
 		};
-		AB8F494328129DB6001F83FA /* Service Layer */ = {
+		AB8F494328129DB6001F83FA /* Service */ = {
 			isa = PBXGroup;
 			children = (
 				AB8F494828129EB3001F83FA /* ServiceErrors.swift */,
 			);
-			path = "Service Layer";
+			path = Service;
 			sourceTree = "<group>";
 		};
 		AB8F494428129DC0001F83FA /* Extensions */ = {
