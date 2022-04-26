@@ -16,7 +16,7 @@ protocol WeatherForecastViewModelDelegate: AnyObject {
     func reloadBackground(colour: String, image: String)
 }
 
-class WeatherForecastViewModel {
+class WeatherForecastViewModel: NSObject {
     
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
@@ -25,15 +25,16 @@ class WeatherForecastViewModel {
     private var forecast: FiveDayForecastModel?
     private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800)
     private var formattedForecast = FormattedForecast()
-    private let locationService: LocationServiceType
     private let testCoord = Coord(lon: -33.9249, lat: 18.4241)
     
+    private let locationManager = CLLocationManager()
+    var coordinates: Coord = Coord(lon: 0.0, lat: 0.0)
+    
+    
     init(delegate: WeatherForecastViewModelDelegate?,
-         repository: WeatherForecastRepositoryType,
-         locationService: LocationService) {
+         repository: WeatherForecastRepositoryType) {
         self.delegate = delegate
         self.repository = repository
-        self.locationService = LocationService()
     }
     
     func getDaysOfTheWeek() {
@@ -42,7 +43,8 @@ class WeatherForecastViewModel {
     }
     
     func getLocation() {
-        locationService.fetchLocationData()
+        setupLocation()
+        fetchLocationData()
     }
     
     func fetchWeather() {
@@ -140,6 +142,36 @@ class WeatherForecastViewModel {
             }
         }
     }
+}
+
+extension WeatherForecastViewModel: CLLocationManagerDelegate {
+    
+    
+    func setupLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func fetchLocationData() {
+        
+        //LocationService.shared.locationManager.requestLocation()
+        
+        locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        print("gotten location")
+        
+        if let location = locations.first {
+            coordinates = Coord(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
+            print(coordinates)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+
 }
 
 enum Theme {

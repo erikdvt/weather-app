@@ -35,8 +35,7 @@ class WeatherForecastViewController: UIViewController {
     
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
-                                                          repository: WeatherForecastRepository(),
-                                                          locationService: LocationService())
+                                                          repository: WeatherForecastRepository())
 
     override func viewDidLoad() {
         super.viewDidLoad()
