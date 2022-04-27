@@ -38,12 +38,20 @@ class WeatherForecastViewController: UIViewController {
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
                                                           repository: WeatherForecastRepository())
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
 //        viewModel.fetchWeather()
 //        viewModel.fetchForecast()
+        
+        print("Test")
+        viewModel.testRepo?.fetchWeather()
+        viewModel.testRepo?.saveWeather(temp: "50")
+        viewModel.testRepo?.fetchWeather()
+        viewModel.testRepo?.saveWeather(temp: "52")
+        viewModel.testRepo?.saveWeather(temp: "51")
+        viewModel.testRepo?.fetchWeather()
         
     }
     

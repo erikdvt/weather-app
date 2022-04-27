@@ -29,11 +29,19 @@ class WeatherForecastViewModel: NSObject {
     
     private let locationManager = CLLocationManager()
     
+    private var weatherItems: [CurrentWeatherItem]? = []
+    
+    
+    
+    var testRepo: FavouriteWeatherForecastsRepositoryType?
+    
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType) {
         self.delegate = delegate
         self.repository = repository
+        // To remove
+        self.testRepo = FavouriteWeatherForecastsRepository()
     }
     
     func getDaysOfTheWeek() {
