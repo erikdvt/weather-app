@@ -63,6 +63,15 @@ class WeatherForecastViewController: UIViewController {
     @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {
         viewModel.flipTheme()
     }
+    @IBAction func favouritesButtonPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "goToFavourites", sender: self)
+    }
+    
+    @IBAction func favouriteButtonPressed(_ sender: UIButton) {
+        
+    }
+    
+    
     
 }
 
