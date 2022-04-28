@@ -15,7 +15,7 @@ class FavouriteWeatherForecastsViewModel {
     private weak var delegate: FavouriteWeatherForecastsViewModelDelegate?
     private var repository: FavouriteWeatherForecastsRepositoryType
     
-    var cities: [CurrentWeatherItem] = []
+    var cities: [FavLocation] = []
     
     init(delegate: FavouriteWeatherForecastsViewModelDelegate?, repository: FavouriteWeatherForecastsRepositoryType) {
         self.delegate = delegate
@@ -23,7 +23,7 @@ class FavouriteWeatherForecastsViewModel {
     }
     
     func displayCities() {
-        repository.fetchWeather(completion: {[weak self] result in
+        repository.fetchFavourites(completion: {[weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -41,7 +41,7 @@ class FavouriteWeatherForecastsViewModel {
         return cities.count
     }
     
-    func setCities(newCities: [CurrentWeatherItem]?) {
+    func setCities(newCities: [FavLocation]?) {
         guard let safeNewCities = newCities else { return }
         cities = safeNewCities
 

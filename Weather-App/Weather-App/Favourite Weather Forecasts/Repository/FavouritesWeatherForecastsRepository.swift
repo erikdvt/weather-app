@@ -8,41 +8,42 @@
 import Foundation
 import UIKit
 
-typealias CurrentWeatherDataResult = (Result<[CurrentWeatherItem], CustomError>) -> Void
+typealias FavouriteLocationResult = (Result<[FavLocation], CustomError>) -> Void
 
 protocol FavouriteWeatherForecastsRepositoryType {
-    func fetchWeather(completion: @escaping(CurrentWeatherDataResult))
-    func saveWeather(temp: String)
+    func saveFavourite(coordinates: Coord, cityName: String)
+    func fetchFavourites(completion: @escaping(FavouriteLocationResult))
 }
 
 class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryType {
     
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
-    private var weatherItems: [CurrentWeatherItem]? = []
+    private var favLocations: [FavLocation]? = []
     
-    func fetchWeather(completion: @escaping(CurrentWeatherDataResult)) {
-        do {
-            self.weatherItems = try context?.fetch(CurrentWeatherItem.fetchRequest())
-            DispatchQueue.main.async {
-                print( self.weatherItems ?? "No items" )
-                guard let safeWeatherItems = self.weatherItems else {return}
-                completion(.success(safeWeatherItems))
-            }
-        } catch {
-            completion(.failure(.internalError))
-        }
-    }
-    
-    func saveWeather(temp: String) {
+    func saveFavourite(coordinates: Coord, cityName: String) {
         guard let safeContext = self.context else { return }
-        let newWeather = CurrentWeatherItem(context: safeContext)
-        newWeather.temp = temp
-        
+        let newFav = FavLocation(context: safeContext)
+        newFav.city = cityName
+        newFav.lat = coordinates.lat
+        newFav.lon = coordinates.lon
         do {
             try safeContext.save()
         } catch {
-            
+            print("error saving")
+        }
+    }
+    
+    func fetchFavourites(completion: @escaping(FavouriteLocationResult)) {
+        do {
+            self.favLocations = try context?.fetch(FavLocation.fetchRequest())
+            DispatchQueue.main.async {
+                print( self.favLocations ?? "No items" )
+                guard let safeWeatherLocations = self.favLocations else {return}
+                completion(.success(safeWeatherLocations))
+            }
+        } catch {
+            completion(.failure(.internalError))
         }
     }
 }

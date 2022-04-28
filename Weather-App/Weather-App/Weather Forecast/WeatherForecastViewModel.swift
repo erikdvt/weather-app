@@ -25,11 +25,13 @@ class WeatherForecastViewModel: NSObject {
     private var forecast: FiveDayForecastModel?
     private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800, "City")
     private var formattedForecast = FormattedForecast()
-    private var coordinatesT = Coord(lon: -33.9249, lat: 18.4241)
+    public var coordinatesT = Coord(lon: -33.9249, lat: 18.4241)
+    
+    public var seguedTo: Bool = false
     
     private let locationManager = CLLocationManager()
     
-    var weatherItems: [CurrentWeatherItem]? = []
+    var favouriteLocations: [FavLocation]? = []
     
     
     
@@ -50,8 +52,12 @@ class WeatherForecastViewModel: NSObject {
     }
     
     func getLocation() {
-        setupLocation()
+        //setupLocation()
         fetchLocationData()
+    }
+    
+    func attemptSaveLocation() {
+        self.testRepo?.saveFavourite(coordinates: self.coordinatesT, cityName: formattedCurrent.city)
     }
     
     func fetchWeather() {
@@ -59,12 +65,31 @@ class WeatherForecastViewModel: NSObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
-                    print(weather)
                     self?.weather = weather
                     self?.formatCurrent()
-                    self?.showWeather()
-                    self?.testRepo?.saveWeather(temp: self?.formattedCurrent.city ?? "City name")
+                    //guard let safeWeatherItem = self?.weatherItems?.last else {return}
+                    guard let safeWeatherItem = self?.formattedCurrent else {return}
+                    
+                    //self.testRepo?.saveWeather(weather: formattedCurrent)
+                    self?.showWeather(safeFormattedCurrent: safeWeatherItem)
+                    
                 case .failure(let error):
+                    
+                    switch error {
+                    case .invalidData:
+                        self?.delegate?.showError("Internet error")
+                    case .invalidResponse:
+                        self?.delegate?.showError(error.rawValue)
+                    case .invalidRequest:
+                        self?.delegate?.showError(error.rawValue)
+                    case .invalidUrl:
+                        self?.delegate?.showError(error.rawValue)
+                    case .parsingError:
+                        self?.delegate?.showError(error.rawValue)
+                    case .internalError:
+                        self?.delegate?.showError(error.rawValue)
+                    }
+                    
                     self?.delegate?.showError(error.rawValue)
                 }
             }
@@ -94,10 +119,13 @@ class WeatherForecastViewModel: NSObject {
         let id: Int = weather?.weather[0].id ?? 0
         
         formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id, city)
+        
+        //guard let safeFormattedCurrent = self?.formattedCurrent else {return}
+        //self.testRepo?.saveWeather(weather: formattedCurrent)
     }
     
-    func showWeather() {
-        delegate?.displayCurrent(formattedCurrent)
+    func showWeather(safeFormattedCurrent: FormattedCurrent) {
+        delegate?.displayCurrent(safeFormattedCurrent)
         changeBackground()
     }
     
@@ -157,16 +185,21 @@ class WeatherForecastViewModel: NSObject {
 extension WeatherForecastViewModel: CLLocationManagerDelegate {
     
     
-    func setupLocation() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-    }
+    //func setupLocation() {
+        
+    //}
     
     func fetchLocationData() {
         
-        //LocationService.shared.locationManager.requestLocation()
-        
-        locationManager.startUpdatingLocation()
+        if seguedTo {
+            //coordinatesT = Coord(lon: 4.9041, lat: 52.3676)
+            fetchWeather()
+            fetchForecast()
+        } else {
+            locationManager.delegate = self
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -174,7 +207,6 @@ extension WeatherForecastViewModel: CLLocationManagerDelegate {
         
         if let location = locations.first {
             coordinatesT = Coord(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
-            print(coordinatesT)
             fetchWeather()
             fetchForecast()
         }

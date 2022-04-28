@@ -42,17 +42,7 @@ class WeatherForecastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
-//        viewModel.fetchWeather()
-//        viewModel.fetchForecast()
-        
-//        print("Test")
-//        viewModel.testRepo?.fetchWeather()
-//        viewModel.testRepo?.saveWeather(temp: "50")
-//        viewModel.testRepo?.fetchWeather()
-//        viewModel.testRepo?.saveWeather(temp: "52")
-//        viewModel.testRepo?.saveWeather(temp: "51")
-//        viewModel.testRepo?.fetchWeather()
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,12 +58,20 @@ class WeatherForecastViewController: UIViewController {
     }
     
     @IBAction func favouriteButtonPressed(_ sender: UIButton) {
-        
+        viewModel.attemptSaveLocation()
+    }
+    
+    func setSegued(_ segued: Bool) {
+        viewModel.seguedTo = segued
+    }
+    
+    func setSegueCoords(coordinates: Coord) {
+        viewModel.coordinatesT = coordinates
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? FavouriteWeatherForecastsViewController {
-            destination.setCity(newCities: viewModel.weatherItems)
+            destination.setCity(newCities: viewModel.favouriteLocations)
         }
     }
     

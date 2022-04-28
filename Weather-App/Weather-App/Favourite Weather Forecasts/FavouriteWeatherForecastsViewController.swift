@@ -25,7 +25,7 @@ class FavouriteWeatherForecastsViewController: UIViewController {
         self.citiesTableView.dataSource = self
     }
     
-    func setCity(newCities: [CurrentWeatherItem]?) {
+    func setCity(newCities: [FavLocation]?) {
         viewModel.setCities(newCities: newCities)
     }
     
@@ -41,7 +41,7 @@ extension FavouriteWeatherForecastsViewController: UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cityDataCell = tableView.dequeueReusableCell(withIdentifier: "cityCell") as? LocationTableViewCell else { return UITableViewCell()}
         //guard let city = viewModel.cities[indexPath.row] else { return UITableViewCell() }
-        let city = viewModel.cities[indexPath.row].temp ?? "Unknown City"
+        let city = viewModel.cities[indexPath.row].city ?? "Unknown City"
         cityDataCell.populateWith(cityName: city)
         cityDataCell.setNeedsLayout()
         
@@ -50,8 +50,17 @@ extension FavouriteWeatherForecastsViewController: UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToForecast", sender: self)
-
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? WeatherForecastViewController {
+            destination.setSegued(true)
+            guard let cityIndex = citiesTableView.indexPathForSelectedRow?.row else {return}
+            let segCoord = Coord(lon: viewModel.cities[cityIndex].lon, lat: viewModel.cities[cityIndex].lat)
+            destination.setSegueCoords(coordinates: segCoord)
+        }
+    }
+
 }
 
 // MARK: - ViewModel Delagate
