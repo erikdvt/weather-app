@@ -68,4 +68,7 @@ extension FavouriteWeatherForecastsViewController: FavouriteWeatherForecastsView
     func reloadView() {
         citiesTableView.reloadData()
     }
+    func showError(_ error: String) {
+        print(error)
+    }
 }

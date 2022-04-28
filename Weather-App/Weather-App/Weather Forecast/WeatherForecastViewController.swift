@@ -35,7 +35,8 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var cityButtonTitle: UIButton!
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
-                                                          repository: WeatherForecastRepository())
+                                                          repository: WeatherForecastRepository(),
+                                                          coreDataRepo: FavouriteWeatherForecastsRepository())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +86,6 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
-        print( formattedData.city )
         cityButtonTitle.setTitle(formattedData.city, for: .normal)
         currentCondition.text = formattedData.condition.rawValue.capitalized
     }

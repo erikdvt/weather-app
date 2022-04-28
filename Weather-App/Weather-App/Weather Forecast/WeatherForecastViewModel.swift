@@ -20,7 +20,7 @@ class WeatherForecastViewModel: NSObject {
     
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
-    var testRepo: FavouriteWeatherForecastsRepositoryType?
+    var coreDataRepo: FavouriteWeatherForecastsRepositoryType?
     private let locationManager = CLLocationManager()
     private var weather: CurrentWeatherModel?
     private var forecast: FiveDayForecastModel?
@@ -32,10 +32,11 @@ class WeatherForecastViewModel: NSObject {
     public var seguedTo: Bool = false
     
     init(delegate: WeatherForecastViewModelDelegate?,
-         repository: WeatherForecastRepositoryType) {
+         repository: WeatherForecastRepositoryType,
+         coreDataRepo: FavouriteWeatherForecastsRepositoryType) {
         self.delegate = delegate
         self.repository = repository
-        self.testRepo = FavouriteWeatherForecastsRepository()
+        self.coreDataRepo = coreDataRepo
     }
     
     public func getDaysOfTheWeek() {
@@ -48,7 +49,7 @@ class WeatherForecastViewModel: NSObject {
     }
     
     public func attemptSaveLocation() {
-        self.testRepo?.saveFavourite(coordinates: self.coordinatesT, cityName: formattedCurrent.city)
+        self.coreDataRepo?.saveFavourite(coordinates: self.coordinatesT, cityName: formattedCurrent.city)
     }
     
     public func flipTheme() {
@@ -61,7 +62,7 @@ class WeatherForecastViewModel: NSObject {
         changeBackground()
     }
 
-    private func fetchWeather() {
+    public func fetchWeather() {
         repository.fetchCurrentWeather(coordinates: coordinatesT, completion: { [weak self] result in
             switch result {
             case .success(let weather):
@@ -92,17 +93,15 @@ class WeatherForecastViewModel: NSObject {
         })
     }
     
-    private func fetchForecast() {
+    public func fetchForecast() {
         repository.fetchFiveDayForecast(coordinates: coordinatesT, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let weather):
-                    self?.forecast = weather
-                    self?.formatForecast()
-                    self?.showForecast()
-                case .failure(let error):
-                    self?.delegate?.showError(error.rawValue)
-                }
+            switch result {
+            case .success(let weather):
+                self?.forecast = weather
+                self?.formatForecast()
+                self?.showForecast()
+            case .failure(let error):
+                self?.delegate?.showError(error.rawValue)
             }
         })
     }

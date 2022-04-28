@@ -9,6 +9,7 @@ import Foundation
 
 protocol FavouriteWeatherForecastsViewModelDelegate: AnyObject {
     func reloadView()
+    func showError(_ error: String)
 }
 
 class FavouriteWeatherForecastsViewModel {
@@ -23,15 +24,13 @@ class FavouriteWeatherForecastsViewModel {
     
     public func displayCities() {
         repository.fetchFavourites(completion: {[weak self] result in
-            DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
                     self?.cities = data
                     self?.delegate?.reloadView()
                 case .failure(let error):
-                    print(error)
+                    self?.delegate?.showError(error.rawValue)
                 }
-            }
         })
     }
     

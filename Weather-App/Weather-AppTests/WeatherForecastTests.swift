@@ -13,23 +13,53 @@ class Weather_AppTests: XCTestCase {
     private var viewModel: WeatherForecastViewModel!
     private var mDelegate: MockDelegate!
     private var repository: MockRepository!
+    private var coreDataRepo: MockCoreDataRepo!
     
     override func setUp() {
         super.setUp()
         mDelegate = MockDelegate()
         repository = MockRepository()
-        viewModel = WeatherForecastViewModel(delegate: mDelegate, repository: repository)
-    }
-    
-    func testFetchWeatherReturnsSuccess() {
-        XCTAssert(true)
+        coreDataRepo = MockCoreDataRepo()
+        viewModel = WeatherForecastViewModel(delegate: mDelegate, repository: repository, coreDataRepo: coreDataRepo)
     }
     
     func testFetchCurrentWeatherReturnsSuccess() {
         viewModel.fetchWeather()
-        
-        XCTAssertNotNil(viewModel.weather)
         XCTAssertTrue(mDelegate.displayCurrentCalled)
+    }
+    
+    func testFetchCurrentWeatherReturnsFailure() {
+        repository.shouldFail = true
+        viewModel.fetchWeather()
+        XCTAssertTrue(mDelegate.showErrorCalled)
+    }
+    
+    func testFetchCurrentWeatherReturnsCorrectResult() {
+        viewModel.fetchWeather()
+        let result = mDelegate.current
+        XCTAssertEqual(result.currentTemp, "10°")
+        XCTAssertEqual(result.minTemp, "9°")
+        XCTAssertEqual(result.maxTemp, "12°")
+        XCTAssertEqual(result.condition.rawValue, "cloudy")
+        XCTAssertEqual(result.city, "Amsterdam")
+    }
+    
+    func testFetchWeatherForecastReturnsSuccess() {
+        viewModel.fetchForecast()
+        XCTAssertTrue(mDelegate.displayForecastCalled)
+    }
+    
+    func testattemptSaveLocationCallsSaveFavourite() {
+        viewModel.fetchWeather()
+        viewModel.fetchForecast()
+        viewModel.attemptSaveLocation()
+        XCTAssertTrue(coreDataRepo.saveFavCalled)
+    }
+    
+    func testFlipThemeCausesBackgroundReload() {
+        viewModel.flipTheme()
+        viewModel.flipTheme()
+        XCTAssertTrue(mDelegate.reloadBackgroundCalled)
     }
 }
 
@@ -97,5 +127,16 @@ class MockDelegate: WeatherForecastViewModelDelegate {
     }
     func reloadBackground(colour: String, image: String) {
         reloadBackgroundCalled = true
+    }
+}
+
+class MockCoreDataRepo: FavouriteWeatherForecastsRepositoryType {
+    var saveFavCalled = false
+    
+    func saveFavourite(coordinates: Coord, cityName: String) {
+        saveFavCalled = true
+    }
+    func fetchFavourites(completion: @escaping(FavouriteLocationResult)) {
+        
     }
 }
