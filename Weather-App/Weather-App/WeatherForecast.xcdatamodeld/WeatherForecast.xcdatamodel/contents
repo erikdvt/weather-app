@@ -6,30 +6,29 @@
         <attribute name="currentTemp" attributeType="String" defaultValueString=""/>
         <attribute name="maxTemp" attributeType="String" defaultValueString=""/>
         <attribute name="minTemp" attributeType="String" defaultValueString=""/>
-        <relationship name="lastLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LastLocation" inverseName="weather" inverseEntity="LastLocation"/>
+        <attribute name="today" attributeType="Date" defaultDateTimeInterval="0" usesScalarValueType="NO"/>
     </entity>
     <entity name="FavLocation" representedClassName="FavLocation" syncable="YES">
         <attribute name="city" attributeType="String" defaultValueString="&quot;City Name&quot;"/>
         <attribute name="lat" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="lon" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="LastLocation" representedClassName="LastLocation" syncable="YES">
-        <attribute name="lastUpdated" attributeType="Date" defaultDateTimeInterval="672827520" usesScalarValueType="NO"/>
-        <relationship name="forecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherForecastsItem" inverseName="lastLocation" inverseEntity="WeatherForecastsItem"/>
-        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CurrentWeatherItem" inverseName="lastLocation" inverseEntity="CurrentWeatherItem"/>
-    </entity>
-    <entity name="WeatherForecastItem" representedClassName="WeatherForecastItem" syncable="YES">
-        <attribute name="conditinoRaw" attributeType="String" defaultValueString="&quot;sunny&quot;"/>
-        <attribute name="temp" attributeType="String" defaultValueString="&quot;0"/>
-    </entity>
     <entity name="WeatherForecastsItem" representedClassName="WeatherForecastsItem" syncable="YES">
-        <relationship name="lastLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LastLocation" inverseName="forecast" inverseEntity="LastLocation"/>
+        <attribute name="c1" attributeType="String" defaultValueString=""/>
+        <attribute name="c2" attributeType="String" defaultValueString=""/>
+        <attribute name="c3" attributeType="String" defaultValueString=""/>
+        <attribute name="c4" attributeType="String" defaultValueString=""/>
+        <attribute name="c5" attributeType="String" defaultValueString=""/>
+        <attribute name="t1" attributeType="String" defaultValueString=""/>
+        <attribute name="t2" attributeType="String" defaultValueString=""/>
+        <attribute name="t3" attributeType="String" defaultValueString=""/>
+        <attribute name="t4" attributeType="String" defaultValueString=""/>
+        <attribute name="t5" attributeType="String" defaultValueString=""/>
+        <attribute name="today" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
         <element name="CurrentWeatherItem" positionX="-54" positionY="-9" width="128" height="119"/>
-        <element name="LastLocation" positionX="-54" positionY="27" width="128" height="74"/>
-        <element name="WeatherForecastsItem" positionX="-36" positionY="45" width="128" height="44"/>
         <element name="FavLocation" positionX="-27" positionY="54" width="128" height="74"/>
-        <element name="WeatherForecastItem" positionX="-9" positionY="81" width="128" height="59"/>
+        <element name="WeatherForecastsItem" positionX="-36" positionY="45" width="128" height="194"/>
     </elements>
 </model>

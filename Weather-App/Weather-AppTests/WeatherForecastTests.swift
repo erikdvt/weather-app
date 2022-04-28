@@ -131,6 +131,22 @@ class MockDelegate: WeatherForecastViewModelDelegate {
 }
 
 class MockCoreDataRepo: FavouriteWeatherForecastsRepositoryType {
+    func saveLastCurrent(data: FormattedCurrent) {
+        
+    }
+    
+    func fetchLastCurrent(completion: @escaping (LastCurrentResult)) {
+        
+    }
+    
+    func saveLastForecast(data: FormattedForecast) {
+        
+    }
+    
+    func fetchLastForecast(completion: @escaping (LastForecastResult)) {
+        
+    }
+    
     var saveFavCalled = false
     
     func saveFavourite(coordinates: Coord, cityName: String) {

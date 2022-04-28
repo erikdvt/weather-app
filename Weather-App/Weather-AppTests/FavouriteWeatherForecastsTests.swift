@@ -53,6 +53,22 @@ class FavMockDelegate: FavouriteWeatherForecastsViewModelDelegate {
 }
 
 class FavMockCoreDataRepo: FavouriteWeatherForecastsRepositoryType {
+    func saveLastCurrent(data: FormattedCurrent) {
+        
+    }
+    
+    func fetchLastCurrent(completion: @escaping (LastCurrentResult)) {
+        
+    }
+    
+    func saveLastForecast(data: FormattedForecast) {
+        
+    }
+    
+    func fetchLastForecast(completion: @escaping (LastForecastResult)) {
+        
+    }
+    
     var shouldFail = false
     var saveFavCalled = false
     
