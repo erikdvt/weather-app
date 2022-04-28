@@ -29,7 +29,7 @@ class WeatherForecastViewModel: NSObject {
     
     private let locationManager = CLLocationManager()
     
-    private var weatherItems: [CurrentWeatherItem]? = []
+    var weatherItems: [CurrentWeatherItem]? = []
     
     
     
@@ -63,6 +63,7 @@ class WeatherForecastViewModel: NSObject {
                     self?.weather = weather
                     self?.formatCurrent()
                     self?.showWeather()
+                    self?.testRepo?.saveWeather(temp: self?.formattedCurrent.city ?? "City name")
                 case .failure(let error):
                     self?.delegate?.showError(error.rawValue)
                 }

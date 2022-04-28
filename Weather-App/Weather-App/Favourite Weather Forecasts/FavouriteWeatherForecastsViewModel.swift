@@ -13,15 +13,38 @@ protocol FavouriteWeatherForecastsViewModelDelegate: AnyObject {
 
 class FavouriteWeatherForecastsViewModel {
     private weak var delegate: FavouriteWeatherForecastsViewModelDelegate?
+    private var repository: FavouriteWeatherForecastsRepositoryType
     
-    init(delegate: FavouriteWeatherForecastsViewModelDelegate?) {
+    var cities: [CurrentWeatherItem] = []
+    
+    init(delegate: FavouriteWeatherForecastsViewModelDelegate?, repository: FavouriteWeatherForecastsRepositoryType) {
         self.delegate = delegate
+        self.repository = repository
     }
     
     func displayCities() {
-        self.delegate?.reloadView()
+        repository.fetchWeather(completion: {[weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self?.cities = data
+                    self?.delegate?.reloadView()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        })
+        
     }
     
-    var cityCount: Int = 2
-    var cities: [String] = ["Cape Town", "Johannesburg"]
+    var cityCount: Int {
+        return cities.count
+    }
+    
+    func setCities(newCities: [CurrentWeatherItem]?) {
+        guard let safeNewCities = newCities else { return }
+        cities = safeNewCities
+
+    }
+    
 }

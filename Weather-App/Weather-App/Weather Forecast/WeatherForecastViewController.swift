@@ -45,13 +45,13 @@ class WeatherForecastViewController: UIViewController {
 //        viewModel.fetchWeather()
 //        viewModel.fetchForecast()
         
-        print("Test")
-        viewModel.testRepo?.fetchWeather()
-        viewModel.testRepo?.saveWeather(temp: "50")
-        viewModel.testRepo?.fetchWeather()
-        viewModel.testRepo?.saveWeather(temp: "52")
-        viewModel.testRepo?.saveWeather(temp: "51")
-        viewModel.testRepo?.fetchWeather()
+//        print("Test")
+//        viewModel.testRepo?.fetchWeather()
+//        viewModel.testRepo?.saveWeather(temp: "50")
+//        viewModel.testRepo?.fetchWeather()
+//        viewModel.testRepo?.saveWeather(temp: "52")
+//        viewModel.testRepo?.saveWeather(temp: "51")
+//        viewModel.testRepo?.fetchWeather()
         
     }
     
@@ -71,7 +71,11 @@ class WeatherForecastViewController: UIViewController {
         
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? FavouriteWeatherForecastsViewController {
+            destination.setCity(newCities: viewModel.weatherItems)
+        }
+    }
     
 }
 

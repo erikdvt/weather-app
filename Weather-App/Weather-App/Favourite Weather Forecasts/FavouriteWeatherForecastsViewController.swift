@@ -11,7 +11,8 @@ import UIKit
 class FavouriteWeatherForecastsViewController: UIViewController {
     @IBOutlet weak var citiesTableView: UITableView!
     
-    private lazy var viewModel = FavouriteWeatherForecastsViewModel(delegate: self)
+    private lazy var viewModel = FavouriteWeatherForecastsViewModel(delegate: self,
+                                                                    repository: FavouriteWeatherForecastsRepository())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,9 @@ class FavouriteWeatherForecastsViewController: UIViewController {
         self.citiesTableView.dataSource = self
     }
     
+    func setCity(newCities: [CurrentWeatherItem]?) {
+        viewModel.setCities(newCities: newCities)
+    }
     
 }
 
@@ -37,7 +41,7 @@ extension FavouriteWeatherForecastsViewController: UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cityDataCell = tableView.dequeueReusableCell(withIdentifier: "cityCell") as? LocationTableViewCell else { return UITableViewCell()}
         //guard let city = viewModel.cities[indexPath.row] else { return UITableViewCell() }
-        let city = viewModel.cities[indexPath.row]
+        let city = viewModel.cities[indexPath.row].temp ?? "Unknown City"
         cityDataCell.populateWith(cityName: city)
         cityDataCell.setNeedsLayout()
         

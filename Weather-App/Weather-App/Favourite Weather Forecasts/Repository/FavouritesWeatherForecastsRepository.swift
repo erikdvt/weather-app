@@ -8,8 +8,10 @@
 import Foundation
 import UIKit
 
+typealias CurrentWeatherDataResult = (Result<[CurrentWeatherItem], CustomError>) -> Void
+
 protocol FavouriteWeatherForecastsRepositoryType {
-    func fetchWeather()
+    func fetchWeather(completion: @escaping(CurrentWeatherDataResult))
     func saveWeather(temp: String)
 }
 
@@ -19,14 +21,16 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
     
     private var weatherItems: [CurrentWeatherItem]? = []
     
-    func fetchWeather() {
+    func fetchWeather(completion: @escaping(CurrentWeatherDataResult)) {
         do {
             self.weatherItems = try context?.fetch(CurrentWeatherItem.fetchRequest())
             DispatchQueue.main.async {
                 print( self.weatherItems ?? "No items" )
+                guard let safeWeatherItems = self.weatherItems else {return}
+                completion(.success(safeWeatherItems))
             }
         } catch {
-            
+            completion(.failure(.internalError))
         }
     }
     
