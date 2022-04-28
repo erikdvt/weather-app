@@ -18,11 +18,15 @@ protocol WeatherForecastRepositoryType: AnyObject {
 class WeatherForecastRepository: WeatherForecastRepositoryType {
     
     func fetchCurrentWeather(coordinates: Coord, completion: @escaping(CurrentWeatherResult)) {
-        makeRequest(url: buildURL(base: Constants.currentWeatherURL, coordinates: coordinates), model: CurrentWeatherModel.self, completion: completion)
+        makeRequest(url: buildURL(base: Constants.currentWeatherURL, coordinates: coordinates),
+                    model: CurrentWeatherModel.self,
+                    completion: completion)
     }
     
     func fetchFiveDayForecast(coordinates: Coord, completion: @escaping(FiveDayForecastResult)) {
-        makeRequest(url: buildURL(base: Constants.fiveDayForecastURL, coordinates: coordinates), model: FiveDayForecastModel.self, completion: completion)
+        makeRequest(url: buildURL(base: Constants.fiveDayForecastURL, coordinates: coordinates),
+                    model: FiveDayForecastModel.self,
+                    completion: completion)
     }
     
     private func buildURL(base: String, coordinates: Coord) -> URL? {
@@ -45,7 +49,8 @@ class WeatherForecastRepository: WeatherForecastRepositoryType {
         callRequest(with: request, model: model, completion: completion)
     }
         
-    private func callRequest<Generic: Codable>(with request: URLRequest, model: Generic.Type, completion: @escaping(Result<Generic, CustomError>) -> Void) {
+    private func callRequest<Generic: Codable>(with request: URLRequest, model: Generic.Type,
+                                               completion: @escaping(Result<Generic, CustomError>) -> Void) {
         
         let apiTask = URLSession.shared.dataTask(with: request) { data, _, error in
             

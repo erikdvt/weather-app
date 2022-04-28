@@ -17,13 +17,14 @@
 		AB14F712281AA1D5009244AD /* WeatherForecastsItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F70A281AA1D5009244AD /* WeatherForecastsItem+CoreDataProperties.swift */; };
 		AB14F715281AA66A009244AD /* FavLocation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */; };
 		AB14F716281AA66A009244AD /* FavLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */; };
+		AB14F718281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F717281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift */; };
 		AB31D6392811995200945967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D6382811995200945967 /* AppDelegate.swift */; };
 		AB31D63B2811995200945967 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D63A2811995200945967 /* SceneDelegate.swift */; };
 		AB31D63D2811995200945967 /* WeatherForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D63C2811995200945967 /* WeatherForecastViewController.swift */; };
 		AB31D6402811995200945967 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB31D63E2811995200945967 /* Main.storyboard */; };
 		AB31D6422811995600945967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB31D6412811995600945967 /* Assets.xcassets */; };
 		AB31D6452811995600945967 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB31D6432811995600945967 /* LaunchScreen.storyboard */; };
-		AB31D6502811995700945967 /* Weather_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D64F2811995700945967 /* Weather_AppTests.swift */; };
+		AB31D6502811995700945967 /* WeatherForecastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D64F2811995700945967 /* WeatherForecastTests.swift */; };
 		AB31D65A2811995700945967 /* Weather_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D6592811995700945967 /* Weather_AppUITests.swift */; };
 		AB31D65C2811995700945967 /* Weather_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D65B2811995700945967 /* Weather_AppUITestsLaunchTests.swift */; };
 		AB7CE3B22819C0A800BEEF19 /* WeatherForecast.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB7CE3B02819C0A800BEEF19 /* WeatherForecast.xcdatamodeld */; };
@@ -72,6 +73,7 @@
 		AB14F70A281AA1D5009244AD /* WeatherForecastsItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecastsItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavLocation+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AB14F717281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteWeatherForecastsTests.swift; sourceTree = "<group>"; };
 		AB31D6352811995200945967 /* Weather-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB31D6382811995200945967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB31D63A2811995200945967 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,7 +83,7 @@
 		AB31D6442811995600945967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB31D6462811995600945967 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB31D64B2811995700945967 /* Weather-AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Weather-AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB31D64F2811995700945967 /* Weather_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather_AppTests.swift; sourceTree = "<group>"; };
+		AB31D64F2811995700945967 /* WeatherForecastTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastTests.swift; sourceTree = "<group>"; };
 		AB31D6552811995700945967 /* Weather-AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Weather-AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB31D6592811995700945967 /* Weather_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather_AppUITests.swift; sourceTree = "<group>"; };
 		AB31D65B2811995700945967 /* Weather_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -179,7 +181,8 @@
 		AB31D64E2811995700945967 /* Weather-AppTests */ = {
 			isa = PBXGroup;
 			children = (
-				AB31D64F2811995700945967 /* Weather_AppTests.swift */,
+				AB31D64F2811995700945967 /* WeatherForecastTests.swift */,
+				AB14F717281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift */,
 			);
 			path = "Weather-AppTests";
 			sourceTree = "<group>";
@@ -465,7 +468,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB31D6502811995700945967 /* Weather_AppTests.swift in Sources */,
+				AB31D6502811995700945967 /* WeatherForecastTests.swift in Sources */,
+				AB14F718281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

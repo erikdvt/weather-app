@@ -34,10 +34,9 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var forecastTempFive: UILabel!
     @IBOutlet weak var cityButtonTitle: UIButton!
     
-    
-    
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
-                                                          repository: WeatherForecastRepository())
+                                                          repository: WeatherForecastRepository(),
+                                                          coreDataRepo: FavouriteWeatherForecastsRepository())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +52,11 @@ class WeatherForecastViewController: UIViewController {
     @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {
         viewModel.flipTheme()
     }
-    @IBAction func favouritesButtonPressed(_ sender: UIButton) {
+    @IBAction private func favouritesButtonPressed(_ sender: UIButton) {
         self.performSegue(withIdentifier: "goToFavourites", sender: self)
     }
     
-    @IBAction func favouriteButtonPressed(_ sender: UIButton) {
+    @IBAction private func favouriteButtonPressed(_ sender: UIButton) {
         viewModel.attemptSaveLocation()
     }
     
@@ -87,9 +86,7 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
-        print( formattedData.city )
         cityButtonTitle.setTitle(formattedData.city, for: .normal)
-//        cityButtonTitle.setTitle("Cape Town", for: .normal)
         currentCondition.text = formattedData.condition.rawValue.capitalized
     }
     

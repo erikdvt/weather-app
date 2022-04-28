@@ -43,7 +43,7 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
                 completion(.success(safeWeatherLocations))
             }
         } catch {
-            completion(.failure(.internalError))
+            DispatchQueue.main.async { completion(.failure(.internalError)) }
         }
     }
 }

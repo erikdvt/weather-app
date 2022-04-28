@@ -40,7 +40,6 @@ extension FavouriteWeatherForecastsViewController: UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cityDataCell = tableView.dequeueReusableCell(withIdentifier: "cityCell") as? LocationTableViewCell else { return UITableViewCell()}
-        //guard let city = viewModel.cities[indexPath.row] else { return UITableViewCell() }
         let city = viewModel.cities[indexPath.row].city ?? "Unknown City"
         cityDataCell.populateWith(cityName: city)
         cityDataCell.setNeedsLayout()
@@ -68,5 +67,8 @@ extension FavouriteWeatherForecastsViewController: UITableViewDelegate, UITableV
 extension FavouriteWeatherForecastsViewController: FavouriteWeatherForecastsViewModelDelegate {
     func reloadView() {
         citiesTableView.reloadData()
+    }
+    func showError(_ error: String) {
+        print(error)
     }
 }
