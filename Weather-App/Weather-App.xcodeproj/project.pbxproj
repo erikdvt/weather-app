@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB14F70B281AA1D5009244AD /* LastLocation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F703281AA1D5009244AD /* LastLocation+CoreDataClass.swift */; };
-		AB14F70C281AA1D5009244AD /* LastLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F704281AA1D5009244AD /* LastLocation+CoreDataProperties.swift */; };
 		AB14F70D281AA1D5009244AD /* WeatherForecastItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F705281AA1D5009244AD /* WeatherForecastItem+CoreDataClass.swift */; };
 		AB14F70E281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F706281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift */; };
 		AB14F70F281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F707281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift */; };
@@ -18,6 +16,7 @@
 		AB14F715281AA66A009244AD /* FavLocation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */; };
 		AB14F716281AA66A009244AD /* FavLocation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */; };
 		AB14F718281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F717281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift */; };
+		AB14F71B281B2AA5009244AD /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB14F71A281B2AA5009244AD /* ConnectionManager.swift */; };
 		AB31D6392811995200945967 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D6382811995200945967 /* AppDelegate.swift */; };
 		AB31D63B2811995200945967 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D63A2811995200945967 /* SceneDelegate.swift */; };
 		AB31D63D2811995200945967 /* WeatherForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB31D63C2811995200945967 /* WeatherForecastViewController.swift */; };
@@ -63,8 +62,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AB14F703281AA1D5009244AD /* LastLocation+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastLocation+CoreDataClass.swift"; sourceTree = "<group>"; };
-		AB14F704281AA1D5009244AD /* LastLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB14F705281AA1D5009244AD /* WeatherForecastItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecastItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB14F706281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecastItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB14F707281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrentWeatherItem+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -74,6 +71,7 @@
 		AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavLocation+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavLocation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB14F717281AEFBA009244AD /* FavouriteWeatherForecastsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteWeatherForecastsTests.swift; sourceTree = "<group>"; };
+		AB14F71A281B2AA5009244AD /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		AB31D6352811995200945967 /* Weather-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB31D6382811995200945967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB31D63A2811995200945967 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -135,8 +133,6 @@
 			children = (
 				AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */,
 				AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */,
-				AB14F703281AA1D5009244AD /* LastLocation+CoreDataClass.swift */,
-				AB14F704281AA1D5009244AD /* LastLocation+CoreDataProperties.swift */,
 				AB14F705281AA1D5009244AD /* WeatherForecastItem+CoreDataClass.swift */,
 				AB14F706281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift */,
 				AB14F707281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift */,
@@ -276,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				AB8F49532812B10B001F83FA /* Constants.swift */,
+				AB14F71A281B2AA5009244AD /* ConnectionManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -446,11 +443,10 @@
 				AB14F715281AA66A009244AD /* FavLocation+CoreDataClass.swift in Sources */,
 				AB14F712281AA1D5009244AD /* WeatherForecastsItem+CoreDataProperties.swift in Sources */,
 				ABB4F0DA2815997D003142E0 /* FormattedForecast.swift in Sources */,
-				AB14F70B281AA1D5009244AD /* LastLocation+CoreDataClass.swift in Sources */,
 				AB31D63B2811995200945967 /* SceneDelegate.swift in Sources */,
-				AB14F70C281AA1D5009244AD /* LastLocation+CoreDataProperties.swift in Sources */,
 				ABB4F0E02816BB26003142E0 /* ConditionClassifier.swift in Sources */,
 				AB14F70E281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift in Sources */,
+				AB14F71B281B2AA5009244AD /* ConnectionManager.swift in Sources */,
 				AB14F70F281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift in Sources */,
 				ABB4F0D8281598E0003142E0 /* FormattedCurrent.swift in Sources */,
 				AB7CE3C92819EC4A00BEEF19 /* LocationTableViewCell.swift in Sources */,

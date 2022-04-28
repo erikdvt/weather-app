@@ -24,4 +24,18 @@ extension Date {
     private var daysOfTheWeek: [String] {
         return  ["Sunday", "Monday", "Tuesday", "Wednesday", "Thurday", "Friday", "Saturday"]
     }
+    
+    var currentDate: String {
+        let today = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+
+        return(formatter.string(from: today))
+    }
+    
+    var formatDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return(formatter.string(from: self))
+    }
 }

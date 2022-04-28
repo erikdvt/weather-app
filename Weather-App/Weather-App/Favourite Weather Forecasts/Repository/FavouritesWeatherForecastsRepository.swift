@@ -7,12 +7,19 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 typealias FavouriteLocationResult = (Result<[FavLocation], CustomError>) -> Void
+typealias LastCurrentResult = (Result<[CurrentWeatherItem], CustomError>) -> Void
+typealias LastForecastResult = (Result<[WeatherForecastsItem], CustomError>) -> Void
 
 protocol FavouriteWeatherForecastsRepositoryType {
     func saveFavourite(coordinates: Coord, cityName: String)
     func fetchFavourites(completion: @escaping(FavouriteLocationResult))
+    func saveLastCurrent(data: FormattedCurrent)
+    func fetchLastCurrent(completion: @escaping(LastCurrentResult))
+    func saveLastForecast(data: FormattedForecast)
+    func fetchLastForecast(completion: @escaping(LastForecastResult))
 }
 
 class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryType {
@@ -20,6 +27,8 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
     private var favLocations: [FavLocation]? = []
+    private var currentWeatherIt: [CurrentWeatherItem]? = []
+    private var weatherForecastIt: [WeatherForecastsItem]? = []
     
     func saveFavourite(coordinates: Coord, cityName: String) {
         guard let safeContext = self.context else { return }
@@ -45,5 +54,84 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
         } catch {
             DispatchQueue.main.async { completion(.failure(.internalError)) }
         }
+    }
+    
+    func saveLastCurrent(data: FormattedCurrent) {
+        guard let safeContext = self.context else { return }
+        let newCur = CurrentWeatherItem(context: safeContext)
+        newCur.maxTemp = data.maxTemp
+        newCur.minTemp = data.minTemp
+        newCur.currentTemp = data.currentTemp
+        newCur.city = data.city
+        newCur.conditionRaw = data.condition.rawValue
+        newCur.today = Date()
+        
+        do {
+            try safeContext.save()
+        } catch {
+            print("error saving")
+        }
+    }
+    
+    func fetchLastCurrent(completion: @escaping(LastCurrentResult)) {
+        do {
+            let request = CurrentWeatherItem.fetchRequest() as NSFetchRequest<CurrentWeatherItem>
+            request.sortDescriptors = [NSSortDescriptor(key: "today", ascending: false)]
+            request.fetchLimit = 1
+            request.returnsObjectsAsFaults = false
+            
+            self.currentWeatherIt = try context?.fetch(request)
+            DispatchQueue.main.async {
+                print( self.currentWeatherIt ?? "No items" )
+                guard let safeLastCurrent = self.currentWeatherIt else {return}
+                completion(.success(safeLastCurrent))
+            }
+        } catch {
+            DispatchQueue.main.async { completion(.failure(.internalError)) }
+        }
+
+    }
+    
+    func saveLastForecast(data: FormattedForecast) {
+        guard let safeContext = self.context else { return }
+        let newFor = WeatherForecastsItem(context: safeContext)
+        
+        newFor.today = data.today
+        newFor.t1 = data.weather[0].temp
+        newFor.c1 = data.weather[0].condition.rawValue
+        newFor.t2 = data.weather[1].temp
+        newFor.c2 = data.weather[1].condition.rawValue
+        newFor.t3 = data.weather[2].temp
+        newFor.c3 = data.weather[2].condition.rawValue
+        newFor.t4 = data.weather[3].temp
+        newFor.c4 = data.weather[3].condition.rawValue
+        newFor.t5 = data.weather[4].temp
+        newFor.c5 = data.weather[4].condition.rawValue
+
+        
+        do {
+            try safeContext.save()
+        } catch {
+            print("error saving")
+        }
+    }
+    
+    func fetchLastForecast(completion: @escaping(LastForecastResult)) {
+        do {
+            let request = WeatherForecastsItem.fetchRequest() as NSFetchRequest<WeatherForecastsItem>
+            request.sortDescriptors = [NSSortDescriptor(key: "today", ascending: false)]
+            request.fetchLimit = 1
+            request.returnsObjectsAsFaults = false
+            
+            self.weatherForecastIt = try context?.fetch(request)
+            DispatchQueue.main.async {
+                print( self.weatherForecastIt ?? "No items" )
+                guard let safeLastForecast = self.weatherForecastIt else {return}
+                completion(.success(safeLastForecast))
+            }
+        } catch {
+            DispatchQueue.main.async { completion(.failure(.internalError)) }
+        }
+
     }
 }

@@ -9,15 +9,17 @@ import Foundation
 
 struct FormattedForecast {
     var weather: [WeatherFor]
+    var today: Date
     
     init() {
         self.weather = []
+        self.today = Date()
     }
 }
 
 struct WeatherFor {
-    let temp: String
-    let condition: Condition
+    var temp: String
+    var condition: Condition
     
     init(temp: Double, id: Int) {
         self.temp = temp.toString()

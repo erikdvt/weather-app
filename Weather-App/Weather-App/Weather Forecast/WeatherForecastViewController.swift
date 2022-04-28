@@ -33,6 +33,7 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var forecastTempFour: UILabel!
     @IBOutlet weak var forecastTempFive: UILabel!
     @IBOutlet weak var cityButtonTitle: UIButton!
+    @IBOutlet weak var connectionStatus: UILabel!
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
                                                           repository: WeatherForecastRepository(),
@@ -46,7 +47,7 @@ class WeatherForecastViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getLocation()
+        viewModel.getTheWeather()
     }
     
     @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {
@@ -88,6 +89,13 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentMaxTemp.text = formattedData.maxTemp
         cityButtonTitle.setTitle(formattedData.city, for: .normal)
         currentCondition.text = formattedData.condition.rawValue.capitalized
+        
+        switch viewModel.isOnline {
+        case .online:
+            connectionStatus.text = "Online"
+        case .offline:
+            connectionStatus.text = "Last Online: \(formattedData.today.formatDate)"
+        }
     }
     
     func displayForecast(_ formattedData: FormattedForecast) {
