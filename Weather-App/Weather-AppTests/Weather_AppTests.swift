@@ -11,18 +11,25 @@ import XCTest
 class Weather_AppTests: XCTestCase {
 
     private var viewModel: WeatherForecastViewModel!
-    private var delegate: MockDelegate!
+    private var mDelegate: MockDelegate!
     private var repository: MockRepository!
     
     override func setUp() {
         super.setUp()
-        delegate = MockDelegate()
+        mDelegate = MockDelegate()
         repository = MockRepository()
-        viewModel = WeatherForecastViewModel(delegate: delegate, repository: repository)
+        viewModel = WeatherForecastViewModel(delegate: mDelegate, repository: repository)
     }
     
     func testFetchWeatherReturnsSuccess() {
         XCTAssert(true)
+    }
+    
+    func testFetchCurrentWeatherReturnsSuccess() {
+        viewModel.fetchWeather()
+        
+        XCTAssertNotNil(viewModel.weather)
+        XCTAssertTrue(mDelegate.displayCurrentCalled)
     }
 }
 
@@ -46,7 +53,10 @@ class MockRepository: WeatherForecastRepositoryType {
     }
     
     private func mockCurrentData() -> CurrentWeatherModel {
-        let mockData: CurrentWeatherModel = CurrentWeatherModel(coord: Coord(lon: 4.9041, lat: 52.3676), weather: [Weather(id: 803)], main: Main(temp: 10.37, tempMin: 8.83, tempMax: 11.63), id: 2759794, name: "Amsterdam")
+        let mockData: CurrentWeatherModel = CurrentWeatherModel(coord: Coord(lon: 4.9041, lat: 52.3676),
+                                                                weather: [Weather(id: 803)],
+                                                                main: Main(temp: 10.37, tempMin: 8.83, tempMax: 11.63),
+                                                                id: 2759794, name: "Amsterdam")
         return mockData
     }
     

@@ -14,15 +14,14 @@ protocol FavouriteWeatherForecastsViewModelDelegate: AnyObject {
 class FavouriteWeatherForecastsViewModel {
     private weak var delegate: FavouriteWeatherForecastsViewModelDelegate?
     private var repository: FavouriteWeatherForecastsRepositoryType
-    
-    var cities: [FavLocation] = []
+    public var cities: [FavLocation] = []
     
     init(delegate: FavouriteWeatherForecastsViewModelDelegate?, repository: FavouriteWeatherForecastsRepositoryType) {
         self.delegate = delegate
         self.repository = repository
     }
     
-    func displayCities() {
+    public func displayCities() {
         repository.fetchFavourites(completion: {[weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -34,17 +33,14 @@ class FavouriteWeatherForecastsViewModel {
                 }
             }
         })
-        
     }
     
-    var cityCount: Int {
+    public var cityCount: Int {
         return cities.count
     }
     
-    func setCities(newCities: [FavLocation]?) {
+    public func setCities(newCities: [FavLocation]?) {
         guard let safeNewCities = newCities else { return }
         cities = safeNewCities
-
     }
-    
 }

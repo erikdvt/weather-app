@@ -20,83 +20,79 @@ class WeatherForecastViewModel: NSObject {
     
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
-    private var theme: Theme = Theme.forest
+    var testRepo: FavouriteWeatherForecastsRepositoryType?
+    private let locationManager = CLLocationManager()
     private var weather: CurrentWeatherModel?
     private var forecast: FiveDayForecastModel?
     private var formattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800, "City")
     private var formattedForecast = FormattedForecast()
+    private var theme: Theme = Theme.forest
+    public var favouriteLocations: [FavLocation]? = []
     public var coordinatesT = Coord(lon: -33.9249, lat: 18.4241)
-    
     public var seguedTo: Bool = false
-    
-    private let locationManager = CLLocationManager()
-    
-    var favouriteLocations: [FavLocation]? = []
-    
-    
-    
-    var testRepo: FavouriteWeatherForecastsRepositoryType?
-    
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType) {
         self.delegate = delegate
         self.repository = repository
-        // To remove
         self.testRepo = FavouriteWeatherForecastsRepository()
     }
     
-    func getDaysOfTheWeek() {
+    public func getDaysOfTheWeek() {
         let days = Date().dayofTheWeek
         delegate?.displayDays(days)
     }
     
-    func getLocation() {
-        //setupLocation()
+    public func getLocation() {
         fetchLocationData()
     }
     
-    func attemptSaveLocation() {
+    public func attemptSaveLocation() {
         self.testRepo?.saveFavourite(coordinates: self.coordinatesT, cityName: formattedCurrent.city)
     }
     
-    func fetchWeather() {
+    public func flipTheme() {
+        switch theme {
+        case .forest:
+            theme = .sea
+        case .sea:
+            theme = .forest
+        }
+        changeBackground()
+    }
+
+    private func fetchWeather() {
         repository.fetchCurrentWeather(coordinates: coordinatesT, completion: { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let weather):
-                    self?.weather = weather
-                    self?.formatCurrent()
-                    //guard let safeWeatherItem = self?.weatherItems?.last else {return}
-                    guard let safeWeatherItem = self?.formattedCurrent else {return}
-                    
-                    //self.testRepo?.saveWeather(weather: formattedCurrent)
-                    self?.showWeather(safeFormattedCurrent: safeWeatherItem)
-                    
-                case .failure(let error):
-                    
-                    switch error {
-                    case .invalidData:
-                        self?.delegate?.showError("Internet error")
-                    case .invalidResponse:
-                        self?.delegate?.showError(error.rawValue)
-                    case .invalidRequest:
-                        self?.delegate?.showError(error.rawValue)
-                    case .invalidUrl:
-                        self?.delegate?.showError(error.rawValue)
-                    case .parsingError:
-                        self?.delegate?.showError(error.rawValue)
-                    case .internalError:
-                        self?.delegate?.showError(error.rawValue)
-                    }
-                    
+            switch result {
+            case .success(let weather):
+                self?.weather = weather
+                self?.formatCurrent()
+                guard let safeWeatherItem = self?.formattedCurrent else {return}
+                self?.showWeather(safeFormattedCurrent: safeWeatherItem)
+                
+            case .failure(let error):
+                
+                switch error {
+                case .invalidData:
+                    self?.delegate?.showError("Internet error")
+                case .invalidResponse:
+                    self?.delegate?.showError(error.rawValue)
+                case .invalidRequest:
+                    self?.delegate?.showError(error.rawValue)
+                case .invalidUrl:
+                    self?.delegate?.showError(error.rawValue)
+                case .parsingError:
+                    self?.delegate?.showError(error.rawValue)
+                case .internalError:
                     self?.delegate?.showError(error.rawValue)
                 }
+                
+                self?.delegate?.showError(error.rawValue)
             }
         })
     }
     
-    func fetchForecast() {
+    private func fetchForecast() {
         repository.fetchFiveDayForecast(coordinates: coordinatesT, completion: { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -119,14 +115,6 @@ class WeatherForecastViewModel: NSObject {
         let id: Int = weather?.weather[0].id ?? 0
         
         formattedCurrent = FormattedCurrent(currentTemp, minTemp, maxTemp, id, city)
-        
-        //guard let safeFormattedCurrent = self?.formattedCurrent else {return}
-        //self.testRepo?.saveWeather(weather: formattedCurrent)
-    }
-    
-    func showWeather(safeFormattedCurrent: FormattedCurrent) {
-        delegate?.displayCurrent(safeFormattedCurrent)
-        changeBackground()
     }
     
     private func formatForecast() {
@@ -141,23 +129,17 @@ class WeatherForecastViewModel: NSObject {
         formattedForecast = formattedData
     }
     
-    func showForecast() {
+    private func showWeather(safeFormattedCurrent: FormattedCurrent) {
+        delegate?.displayCurrent(safeFormattedCurrent)
+        changeBackground()
+    }
+    
+    private func showForecast() {
         delegate?.displayForecast(formattedForecast)
         changeBackground()
     }
     
-    func flipTheme() {
-        switch theme {
-        case .forest:
-            theme = .sea
-        case .sea:
-            theme = .forest
-        }
-        
-        changeBackground()
-    }
-    
-    func changeBackground() {
+    private func changeBackground() {
         let currentCondition = formattedCurrent.condition
         switch theme {
         case .forest:
@@ -184,15 +166,8 @@ class WeatherForecastViewModel: NSObject {
 
 extension WeatherForecastViewModel: CLLocationManagerDelegate {
     
-    
-    //func setupLocation() {
-        
-    //}
-    
     func fetchLocationData() {
-        
         if seguedTo {
-            //coordinatesT = Coord(lon: 4.9041, lat: 52.3676)
             fetchWeather()
             fetchForecast()
         } else {
@@ -203,8 +178,6 @@ extension WeatherForecastViewModel: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        print("gotten location")
-        
         if let location = locations.first {
             coordinatesT = Coord(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
             fetchWeather()
