@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CurrentWeatherItem" representedClassName="CurrentWeatherItem" syncable="YES">
+        <attribute name="city" attributeType="String" defaultValueString="&quot;default Citty&quot;"/>
+        <attribute name="conditionRaw" attributeType="String" defaultValueString=""/>
+        <attribute name="currentTemp" attributeType="String" defaultValueString=""/>
+        <attribute name="maxTemp" attributeType="String" defaultValueString=""/>
+        <attribute name="minTemp" attributeType="String" defaultValueString=""/>
+        <relationship name="lastLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LastLocation" inverseName="weather" inverseEntity="LastLocation"/>
+    </entity>
+    <entity name="FavLocation" representedClassName="FavLocation" syncable="YES">
+        <attribute name="city" attributeType="String" defaultValueString="&quot;City Name&quot;"/>
+        <attribute name="lat" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="LastLocation" representedClassName="LastLocation" syncable="YES">
+        <attribute name="lastUpdated" attributeType="Date" defaultDateTimeInterval="672827520" usesScalarValueType="NO"/>
+        <relationship name="forecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherForecastsItem" inverseName="lastLocation" inverseEntity="WeatherForecastsItem"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CurrentWeatherItem" inverseName="lastLocation" inverseEntity="CurrentWeatherItem"/>
+    </entity>
+    <entity name="WeatherForecastItem" representedClassName="WeatherForecastItem" syncable="YES">
+        <attribute name="conditinoRaw" attributeType="String" defaultValueString="&quot;sunny&quot;"/>
+        <attribute name="temp" attributeType="String" defaultValueString="&quot;0"/>
+    </entity>
+    <entity name="WeatherForecastsItem" representedClassName="WeatherForecastsItem" syncable="YES">
+        <relationship name="lastLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LastLocation" inverseName="forecast" inverseEntity="LastLocation"/>
+    </entity>
+    <elements>
+        <element name="CurrentWeatherItem" positionX="-54" positionY="-9" width="128" height="119"/>
+        <element name="LastLocation" positionX="-54" positionY="27" width="128" height="74"/>
+        <element name="WeatherForecastsItem" positionX="-36" positionY="45" width="128" height="44"/>
+        <element name="FavLocation" positionX="-27" positionY="54" width="128" height="74"/>
+        <element name="WeatherForecastItem" positionX="-9" positionY="81" width="128" height="59"/>
+    </elements>
+</model>

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
@@ -31,19 +32,47 @@ class WeatherForecastViewController: UIViewController {
     @IBOutlet weak var forecastTempThree: UILabel!
     @IBOutlet weak var forecastTempFour: UILabel!
     @IBOutlet weak var forecastTempFive: UILabel!
+    @IBOutlet weak var cityButtonTitle: UIButton!
+    
+    
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
                                                           repository: WeatherForecastRepository())
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDaysOfTheWeek()
-        viewModel.fetchWeather()
-        viewModel.fetchForecast()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getLocation()
     }
     
     @IBAction private func changeThemeButtonPressed(_ sender: UIButton) {
         viewModel.flipTheme()
+    }
+    @IBAction func favouritesButtonPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "goToFavourites", sender: self)
+    }
+    
+    @IBAction func favouriteButtonPressed(_ sender: UIButton) {
+        viewModel.attemptSaveLocation()
+    }
+    
+    func setSegued(_ segued: Bool) {
+        viewModel.seguedTo = segued
+    }
+    
+    func setSegueCoords(coordinates: Coord) {
+        viewModel.coordinatesT = coordinates
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? FavouriteWeatherForecastsViewController {
+            destination.setCity(newCities: viewModel.favouriteLocations)
+        }
     }
     
 }
@@ -58,6 +87,9 @@ extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
         currentTemp.text = formattedData.currentTemp
         currentMinTemp.text = formattedData.minTemp
         currentMaxTemp.text = formattedData.maxTemp
+        print( formattedData.city )
+        cityButtonTitle.setTitle(formattedData.city, for: .normal)
+//        cityButtonTitle.setTitle("Cape Town", for: .normal)
         currentCondition.text = formattedData.condition.rawValue.capitalized
     }
     
