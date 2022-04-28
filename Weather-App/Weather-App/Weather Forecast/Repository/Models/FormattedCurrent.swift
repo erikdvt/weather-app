@@ -8,11 +8,12 @@
 import Foundation
 
 struct FormattedCurrent {
-    let currentTemp: String
-    let minTemp: String
-    let maxTemp: String
-    let condition: Condition
-    let city: String
+    var currentTemp: String
+    var minTemp: String
+    var maxTemp: String
+    var condition: Condition
+    var city: String
+    var today: Date
     
     init(_ curT: Double, _ minT: Double, _ maxT: Double, _ id: Int, _ city: String) {
         self.currentTemp = curT.toString()
@@ -20,5 +21,6 @@ struct FormattedCurrent {
         self.maxTemp = maxT.toString()
         self.city = city
         self.condition = ConditionClassifier.classifyCondition(by: id)
+        self.today = Date()
     }
 }

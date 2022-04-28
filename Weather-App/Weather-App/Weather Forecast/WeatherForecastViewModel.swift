@@ -30,6 +30,7 @@ class WeatherForecastViewModel: NSObject {
     public var favouriteLocations: [FavLocation]? = []
     public var coordinatesT = Coord(lon: -33.9249, lat: 18.4241)
     public var seguedTo: Bool = false
+    public var isOnline: ConnectionStatus = .offline
     
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType,
@@ -44,8 +45,64 @@ class WeatherForecastViewModel: NSObject {
         delegate?.displayDays(days)
     }
     
-    public func getLocation() {
-        fetchLocationData()
+    public func getTheWeather() {
+        if ConnectionManager.isConnectedToNetwork() {
+            isOnline = .online
+            fetchLocationData()
+        } else {
+            isOnline = .offline
+            self.coreDataRepo?.fetchLastCurrent(completion: { result in
+                switch result {
+                case .success(let data):
+                    
+                    self.formattedCurrent.today = data[0].today ?? Date()
+                    self.formattedCurrent.currentTemp = data[0].currentTemp ?? "nil"
+                    self.formattedCurrent.minTemp = data[0].minTemp ?? "nil"
+                    self.formattedCurrent.maxTemp = data[0].maxTemp ?? "nil"
+                    self.formattedCurrent.city = data[0].city ?? "nil"
+                    self.formattedCurrent.condition = Condition(rawValue: data[0].conditionRaw ?? "sunny") ?? .sunny
+                    
+                    self.showWeather(safeFormattedCurrent: self.formattedCurrent)
+
+
+                case .failure(let error):
+                    print(error)
+                }
+            })
+            
+            self.coreDataRepo?.fetchLastForecast(completion: { result in
+                switch result {
+                case .success(let data):
+                    var w1 = WeatherFor(temp: 0, id: 800)
+                    var w2 = WeatherFor(temp: 0, id: 800)
+                    var w3 = WeatherFor(temp: 0, id: 800)
+                    var w4 = WeatherFor(temp: 0, id: 800)
+                    var w5 = WeatherFor(temp: 0, id: 800)
+                    
+                    w1.temp = data[0].t1 ?? "0"
+                    w1.condition = Condition(rawValue: data[0].c1 ?? "sunny") ?? .sunny
+                    w2.temp = data[0].t2 ?? "0"
+                    w2.condition = Condition(rawValue: data[0].c2 ?? "sunny") ?? .sunny
+                    w3.temp = data[0].t3 ?? "0"
+                    w3.condition = Condition(rawValue: data[0].c3 ?? "sunny") ?? .sunny
+                    w4.temp = data[0].t4 ?? "0"
+                    w4.condition = Condition(rawValue: data[0].c4 ?? "sunny") ?? .sunny
+                    w5.temp = data[0].t5 ?? "0"
+                    w5.condition = Condition(rawValue: data[0].c5 ?? "sunny") ?? .sunny
+                    
+                    self.formattedForecast.today = data[0].today ?? Date()
+                    self.formattedForecast.weather.append(w1)
+                    self.formattedForecast.weather.append(w2)
+                    self.formattedForecast.weather.append(w3)
+                    self.formattedForecast.weather.append(w4)
+                    self.formattedForecast.weather.append(w5)
+                    
+                    self.showForecast(safeFormattedForecast: self.formattedForecast)
+                case .failure(let error):
+                    print(error)
+                }
+            })
+        }
     }
     
     public func attemptSaveLocation() {
@@ -69,25 +126,10 @@ class WeatherForecastViewModel: NSObject {
                 self?.weather = weather
                 self?.formatCurrent()
                 guard let safeWeatherItem = self?.formattedCurrent else {return}
+                self?.coreDataRepo?.saveLastCurrent(data: safeWeatherItem)
                 self?.showWeather(safeFormattedCurrent: safeWeatherItem)
                 
             case .failure(let error):
-                
-                switch error {
-                case .invalidData:
-                    self?.delegate?.showError("Internet error")
-                case .invalidResponse:
-                    self?.delegate?.showError(error.rawValue)
-                case .invalidRequest:
-                    self?.delegate?.showError(error.rawValue)
-                case .invalidUrl:
-                    self?.delegate?.showError(error.rawValue)
-                case .parsingError:
-                    self?.delegate?.showError(error.rawValue)
-                case .internalError:
-                    self?.delegate?.showError(error.rawValue)
-                }
-                
                 self?.delegate?.showError(error.rawValue)
             }
         })
@@ -99,7 +141,9 @@ class WeatherForecastViewModel: NSObject {
             case .success(let weather):
                 self?.forecast = weather
                 self?.formatForecast()
-                self?.showForecast()
+                guard let safeForecastItem = self?.formattedForecast else { return }
+                self?.coreDataRepo?.saveLastForecast(data: safeForecastItem)
+                self?.showForecast(safeFormattedForecast: safeForecastItem)
             case .failure(let error):
                 self?.delegate?.showError(error.rawValue)
             }
@@ -133,8 +177,8 @@ class WeatherForecastViewModel: NSObject {
         changeBackground()
     }
     
-    private func showForecast() {
-        delegate?.displayForecast(formattedForecast)
+    private func showForecast(safeFormattedForecast: FormattedForecast) {
+        delegate?.displayForecast(safeFormattedForecast)
         changeBackground()
     }
     
@@ -193,4 +237,9 @@ extension WeatherForecastViewModel: CLLocationManagerDelegate {
 enum Theme {
     case forest
     case sea
+}
+
+enum ConnectionStatus: String {
+    case online
+    case offline
 }

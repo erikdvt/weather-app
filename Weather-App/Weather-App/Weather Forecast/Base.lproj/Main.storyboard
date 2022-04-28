@@ -225,6 +225,12 @@
                                     <action selector="changeThemeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B4l-65-1Ay"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connection Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jaS-qo-H54">
+                                <rect key="frame" x="136.5" y="60.5" width="141" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="Sunny"/>
@@ -237,9 +243,11 @@
                             <constraint firstItem="ZIf-t5-6bb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="CW2-sH-UJ0"/>
                             <constraint firstItem="JsT-mB-5Rv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DaL-Ni-PmQ"/>
                             <constraint firstItem="7aT-Sk-Ekk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Fab-7u-ePi"/>
+                            <constraint firstItem="m3M-OC-tzO" firstAttribute="top" secondItem="jaS-qo-H54" secondAttribute="bottom" constant="20" id="GFx-cb-ucS"/>
                             <constraint firstItem="7aT-Sk-Ekk" firstAttribute="top" secondItem="vnu-u6-801" secondAttribute="bottom" constant="10" id="GqW-51-0rd"/>
                             <constraint firstItem="vnu-u6-801" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ihh-90-6bb"/>
                             <constraint firstItem="JsT-mB-5Rv" firstAttribute="top" secondItem="nG7-WI-9Do" secondAttribute="bottom" constant="20" id="JbT-ZV-Qgh"/>
+                            <constraint firstItem="jaS-qo-H54" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TD2-TY-2PQ"/>
                             <constraint firstItem="nG7-WI-9Do" firstAttribute="top" secondItem="m3M-OC-tzO" secondAttribute="bottom" constant="8.5" id="Y4d-KQ-tkJ"/>
                             <constraint firstItem="95d-pq-ovz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bpg-Kd-oUa"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="95d-pq-ovz" secondAttribute="trailing" id="doc-8r-chX"/>
@@ -256,6 +264,7 @@
                     <navigationItem key="navigationItem" id="wvh-Qj-ds5"/>
                     <connections>
                         <outlet property="cityButtonTitle" destination="JsT-mB-5Rv" id="jnL-zn-a9w"/>
+                        <outlet property="connectionStatus" destination="jaS-qo-H54" id="5A9-PQ-KN1"/>
                         <outlet property="currentCondition" destination="nG7-WI-9Do" id="e4Y-i5-rVQ"/>
                         <outlet property="currentConditionBackground" destination="vnu-u6-801" id="Skk-bV-LRy"/>
                         <outlet property="currentMaxTemp" destination="UPN-xy-QAc" id="PLz-qJ-DI7"/>
