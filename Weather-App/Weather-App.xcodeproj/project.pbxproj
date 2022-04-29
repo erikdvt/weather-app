@@ -133,14 +133,6 @@
 		AB31D62C2811995200945967 = {
 			isa = PBXGroup;
 			children = (
-				AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */,
-				AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */,
-				AB14F705281AA1D5009244AD /* WeatherForecastItem+CoreDataClass.swift */,
-				AB14F706281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift */,
-				AB14F707281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift */,
-				AB14F708281AA1D5009244AD /* CurrentWeatherItem+CoreDataProperties.swift */,
-				AB14F709281AA1D5009244AD /* WeatherForecastsItem+CoreDataClass.swift */,
-				AB14F70A281AA1D5009244AD /* WeatherForecastsItem+CoreDataProperties.swift */,
 				AB31D6372811995200945967 /* Weather-App */,
 				AB31D64E2811995700945967 /* Weather-AppTests */,
 				AB31D6582811995700945967 /* Weather-AppUITests */,
@@ -161,6 +153,7 @@
 		AB31D6372811995200945967 /* Weather-App */ = {
 			isa = PBXGroup;
 			children = (
+				AB7031F2281C0BFC00B7D506 /* Models */,
 				AB8F494328129DB6001F83FA /* Service */,
 				AB8F494428129DC0001F83FA /* Extensions */,
 				AB7CE3B32819C13300BEEF19 /* Favourite Weather Forecasts */,
@@ -192,6 +185,21 @@
 				AB31D65B2811995700945967 /* Weather_AppUITestsLaunchTests.swift */,
 			);
 			path = "Weather-AppUITests";
+			sourceTree = "<group>";
+		};
+		AB7031F2281C0BFC00B7D506 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB14F713281AA66A009244AD /* FavLocation+CoreDataClass.swift */,
+				AB14F714281AA66A009244AD /* FavLocation+CoreDataProperties.swift */,
+				AB14F705281AA1D5009244AD /* WeatherForecastItem+CoreDataClass.swift */,
+				AB14F706281AA1D5009244AD /* WeatherForecastItem+CoreDataProperties.swift */,
+				AB14F707281AA1D5009244AD /* CurrentWeatherItem+CoreDataClass.swift */,
+				AB14F708281AA1D5009244AD /* CurrentWeatherItem+CoreDataProperties.swift */,
+				AB14F709281AA1D5009244AD /* WeatherForecastsItem+CoreDataClass.swift */,
+				AB14F70A281AA1D5009244AD /* WeatherForecastsItem+CoreDataProperties.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		AB7CE3B32819C13300BEEF19 /* Favourite Weather Forecasts */ = {
