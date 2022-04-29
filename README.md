@@ -11,4 +11,4 @@ main
   
 Build badge:
 
-![bitriseBadge](https://app.bitrise.io/app/371cd3790563b738/status.svg?token=XmWcEx0zM19V_B9g1f4hnQ&branch=master)
+![bitriseBadge](https://app.bitrise.io/app/371cd3790563b738/status.svg?token=XmWcEx0zM19V_B9g1f4hnQ&branch=develop)

@@ -104,6 +104,7 @@ class MockRepository: WeatherForecastRepositoryType {
 }
 
 class MockDelegate: WeatherForecastViewModelDelegate {
+        
     var showErrorCalled = false
     var displayDaysCalled = false
     var displayCurrentCalled = false
@@ -112,7 +113,7 @@ class MockDelegate: WeatherForecastViewModelDelegate {
     
     var current: FormattedCurrent = FormattedCurrent(0.0, 0.0, 0.0, 800, "City")
     
-    func showError(_ error: String) {
+    func showError(title: String, error: String) {
         showErrorCalled = true
     }
     func displayDays(_ days: [String]) {

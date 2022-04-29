@@ -78,8 +78,10 @@ class WeatherForecastViewController: UIViewController {
 }
 
 extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
-    func showError(_ error: String) {
-        print(error)
+    func showError(title: String, error: String) {
+        self.showAlert(title: title,
+                       message: error,
+                       button: "Dismiss")
     }
     
     func displayCurrent(_ formattedData: FormattedCurrent) {

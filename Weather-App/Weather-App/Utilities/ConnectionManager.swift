@@ -22,18 +22,10 @@ public class ConnectionManager {
         }
 
         var flags: SCNetworkReachabilityFlags = SCNetworkReachabilityFlags(rawValue: 0)
-        if SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) == false {
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
             return false
         }
-
-        /* Only Working for WIFI
-        let isReachable = flags == .reachable
-        let needsConnection = flags == .connectionRequired
-
-        return isReachable && !needsConnection
-        */
-
-        // Working for Cellular and WIFI
+        
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
         let ret = (isReachable && !needsConnection)

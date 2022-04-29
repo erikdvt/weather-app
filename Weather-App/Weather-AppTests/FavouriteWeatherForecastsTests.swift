@@ -46,7 +46,7 @@ class FavMockDelegate: FavouriteWeatherForecastsViewModelDelegate {
         reloadViewCalled = true
     }
     
-    func showError(_ error: String) {
+    func showError(title: String, error: String) {
         showErrorCalled = true
     }
     

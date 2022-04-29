@@ -11,7 +11,7 @@ struct ConditionClassifier {
     static func classifyCondition(by: Int) -> Condition {
         switch by {
         case ConditionRanges.rainRange:
-            return .rainy
+            return .rainny
         case ConditionRanges.cloudyRange:
             return .cloudy
         default:
@@ -29,5 +29,5 @@ enum ConditionRanges {
 enum Condition: String {
     case sunny
     case cloudy
-    case rainy
+    case rainny
 }

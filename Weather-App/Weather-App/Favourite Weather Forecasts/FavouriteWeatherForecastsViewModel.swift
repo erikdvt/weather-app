@@ -9,7 +9,7 @@ import Foundation
 
 protocol FavouriteWeatherForecastsViewModelDelegate: AnyObject {
     func reloadView()
-    func showError(_ error: String)
+    func showError(title: String, error: String)
 }
 
 class FavouriteWeatherForecastsViewModel {
@@ -29,7 +29,7 @@ class FavouriteWeatherForecastsViewModel {
                     self?.cities = data
                     self?.delegate?.reloadView()
                 case .failure(let error):
-                    self?.delegate?.showError(error.rawValue)
+                    self?.delegate?.showError(title: "Unable to find cities", error: error.rawValue)
                 }
         })
     }
