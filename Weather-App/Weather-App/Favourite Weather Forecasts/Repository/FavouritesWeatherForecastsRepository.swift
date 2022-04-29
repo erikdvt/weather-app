@@ -108,7 +108,6 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
         newFor.t5 = data.weather[4].temp
         newFor.c5 = data.weather[4].condition.rawValue
 
-        
         do {
             try safeContext.save()
         } catch {

@@ -21,6 +21,7 @@ class WeatherForecastViewModel: NSObject {
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
     var coreDataRepo: FavouriteWeatherForecastsRepositoryType?
+    //private var
     private let locationManager = CLLocationManager()
     private var weather: CurrentWeatherModel?
     private var forecast: FiveDayForecastModel?
@@ -32,12 +33,15 @@ class WeatherForecastViewModel: NSObject {
     public var seguedTo: Bool = false
     public var isOnline: ConnectionStatus = .offline
     
+    private var conMan: ConnectionManager?
+    
     init(delegate: WeatherForecastViewModelDelegate?,
          repository: WeatherForecastRepositoryType,
          coreDataRepo: FavouriteWeatherForecastsRepositoryType) {
         self.delegate = delegate
         self.repository = repository
         self.coreDataRepo = coreDataRepo
+        self.conMan = ConnectionManager()
     }
     
     public func getDaysOfTheWeek() {
@@ -67,9 +71,6 @@ class WeatherForecastViewModel: NSObject {
                     } else {
                         self.delegate?.showError(title: "Cached weather error", error: "Connect internet and try again")
                     }
-                    
-                    
-
                 case .failure(let error):
                     self.delegate?.showError(title: "Cached weather error", error: error.rawValue)
                 }
@@ -108,8 +109,6 @@ class WeatherForecastViewModel: NSObject {
                     } else {
                         self.delegate?.showError(title: "Cached weather error", error: "Connect internet and try again")
                     }
-                    
-                    
                 case .failure(let error):
                     self.delegate?.showError(title: "Cached weather error", error: error.rawValue)
                 }
