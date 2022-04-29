@@ -14,6 +14,7 @@ class Weather_AppTests: XCTestCase {
     private var mDelegate: MockDelegate!
     private var repository: MockRepository!
     private var coreDataRepo: MockCoreDataRepo!
+    var conShouldPass = true
     
     override func setUp() {
         super.setUp()
@@ -47,6 +48,12 @@ class Weather_AppTests: XCTestCase {
     func testFetchWeatherForecastReturnsSuccess() {
         viewModel.fetchForecast()
         XCTAssertTrue(mDelegate.displayForecastCalled)
+    }
+    
+    func testFetchWeatherForecastReturnsFailure() {
+        repository.shouldFail = true
+        viewModel.fetchForecast()
+        XCTAssertTrue(mDelegate.showErrorCalled)
     }
     
     func testattemptSaveLocationCallsSaveFavourite() {
@@ -132,28 +139,18 @@ class MockDelegate: WeatherForecastViewModelDelegate {
 }
 
 class MockCoreDataRepo: FavouriteWeatherForecastsRepositoryType {
-    func saveLastCurrent(data: FormattedCurrent) {
-        
-    }
-    
-    func fetchLastCurrent(completion: @escaping (LastCurrentResult)) {
-        
-    }
-    
-    func saveLastForecast(data: FormattedForecast) {
-        
-    }
-    
-    func fetchLastForecast(completion: @escaping (LastForecastResult)) {
-        
-    }
-    
     var saveFavCalled = false
-    
     func saveFavourite(coordinates: Coord, cityName: String) {
         saveFavCalled = true
     }
+    func saveLastCurrent(data: FormattedCurrent) {
+    }
+    func fetchLastCurrent(completion: @escaping (LastCurrentResult)) {
+    }
+    func saveLastForecast(data: FormattedForecast) {
+    }
+    func fetchLastForecast(completion: @escaping (LastForecastResult)) {
+    }
     func fetchFavourites(completion: @escaping(FavouriteLocationResult)) {
-        
     }
 }
