@@ -46,44 +46,37 @@ class FavMockDelegate: FavouriteWeatherForecastsViewModelDelegate {
         reloadViewCalled = true
     }
     
-    func showError(_ error: String) {
+    func showError(title: String, error: String) {
         showErrorCalled = true
     }
     
 }
 
 class FavMockCoreDataRepo: FavouriteWeatherForecastsRepositoryType {
-    func saveLastCurrent(data: FormattedCurrent) {
-        
-    }
-    
-    func fetchLastCurrent(completion: @escaping (LastCurrentResult)) {
-        
-    }
-    
-    func saveLastForecast(data: FormattedForecast) {
-        
-    }
-    
-    func fetchLastForecast(completion: @escaping (LastForecastResult)) {
-        
-    }
-    
     var shouldFail = false
     var saveFavCalled = false
     
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
-    
     func saveFavourite(coordinates: Coord, cityName: String) {
         saveFavCalled = true
     }
+    
     func fetchFavourites(completion: @escaping(FavouriteLocationResult)) {
         if shouldFail {
             completion(.failure(.internalError))
         } else {
             completion(.success(self.mockData()))
         }
+    }
+    
+    func saveLastCurrent(data: FormattedCurrent) {
+    }
+    func fetchLastCurrent(completion: @escaping (LastCurrentResult)) {
+    }
+    func saveLastForecast(data: FormattedForecast) {
+    }
+    func fetchLastForecast(completion: @escaping (LastForecastResult)) {
     }
     
     private func mockData() -> [FavLocation] {

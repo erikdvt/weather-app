@@ -65,10 +65,12 @@ extension FavouriteWeatherForecastsViewController: UITableViewDelegate, UITableV
 // MARK: - ViewModel Delagate
 
 extension FavouriteWeatherForecastsViewController: FavouriteWeatherForecastsViewModelDelegate {
-    func reloadView() {
+    public func reloadView() {
         citiesTableView.reloadData()
     }
-    func showError(_ error: String) {
-        print(error)
+    public func showError(title: String, error: String) {
+        self.showAlert(title: title,
+                       message: error,
+                       button: "Dismiss")
     }
 }

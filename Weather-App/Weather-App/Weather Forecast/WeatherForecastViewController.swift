@@ -11,29 +11,29 @@ import CoreLocation
 
 class WeatherForecastViewController: UIViewController {
     
-    @IBOutlet weak var currentConditionBackground: UIImageView!
-    @IBOutlet weak var currentCondition: UILabel!
-    @IBOutlet weak var currentTempBig: UILabel!
-    @IBOutlet weak var currentMinTemp: UILabel!
-    @IBOutlet weak var currentTemp: UILabel!
-    @IBOutlet weak var currentMaxTemp: UILabel!
-    @IBOutlet weak var forecastDayOne: UILabel!
-    @IBOutlet weak var forecastDayTwo: UILabel!
-    @IBOutlet weak var forecastDayThree: UILabel!
-    @IBOutlet weak var forecastDayFour: UILabel!
-    @IBOutlet weak var forecastDayFive: UILabel!
-    @IBOutlet weak var forecastConditionOne: UIImageView!
-    @IBOutlet weak var forecastConditionTwo: UIImageView!
-    @IBOutlet weak var forecastConditionThree: UIImageView!
-    @IBOutlet weak var forcastConditionFour: UIImageView!
-    @IBOutlet weak var forecastConditionFive: UIImageView!
-    @IBOutlet weak var forecastTempOne: UILabel!
-    @IBOutlet weak var forevastTempTwo: UILabel!
-    @IBOutlet weak var forecastTempThree: UILabel!
-    @IBOutlet weak var forecastTempFour: UILabel!
-    @IBOutlet weak var forecastTempFive: UILabel!
-    @IBOutlet weak var cityButtonTitle: UIButton!
-    @IBOutlet weak var connectionStatus: UILabel!
+    @IBOutlet private weak var currentConditionBackground: UIImageView!
+    @IBOutlet private weak var currentCondition: UILabel!
+    @IBOutlet private weak var currentTempBig: UILabel!
+    @IBOutlet private weak var currentMinTemp: UILabel!
+    @IBOutlet private weak var currentTemp: UILabel!
+    @IBOutlet private weak var currentMaxTemp: UILabel!
+    @IBOutlet private weak var forecastDayOne: UILabel!
+    @IBOutlet private weak var forecastDayTwo: UILabel!
+    @IBOutlet private weak var forecastDayThree: UILabel!
+    @IBOutlet private weak var forecastDayFour: UILabel!
+    @IBOutlet private weak var forecastDayFive: UILabel!
+    @IBOutlet private weak var forecastConditionOne: UIImageView!
+    @IBOutlet private weak var forecastConditionTwo: UIImageView!
+    @IBOutlet private weak var forecastConditionThree: UIImageView!
+    @IBOutlet private weak var forcastConditionFour: UIImageView!
+    @IBOutlet private weak var forecastConditionFive: UIImageView!
+    @IBOutlet private weak var forecastTempOne: UILabel!
+    @IBOutlet private weak var forevastTempTwo: UILabel!
+    @IBOutlet private weak var forecastTempThree: UILabel!
+    @IBOutlet private weak var forecastTempFour: UILabel!
+    @IBOutlet private weak var forecastTempFive: UILabel!
+    @IBOutlet private weak var cityButtonTitle: UIButton!
+    @IBOutlet private weak var connectionStatus: UILabel!
     
     private lazy var viewModel = WeatherForecastViewModel(delegate: self,
                                                           repository: WeatherForecastRepository(),
@@ -78,8 +78,10 @@ class WeatherForecastViewController: UIViewController {
 }
 
 extension WeatherForecastViewController: WeatherForecastViewModelDelegate {
-    func showError(_ error: String) {
-        print(error)
+    func showError(title: String, error: String) {
+        self.showAlert(title: title,
+                       message: error,
+                       button: "Dismiss")
     }
     
     func displayCurrent(_ formattedData: FormattedCurrent) {
