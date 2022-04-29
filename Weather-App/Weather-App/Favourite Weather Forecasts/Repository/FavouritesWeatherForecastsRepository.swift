@@ -31,6 +31,9 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
     private var weatherForecastIt: [WeatherForecastsItem]? = []
     
     func saveFavourite(coordinates: Coord, cityName: String) {
+        
+        
+        
         guard let safeContext = self.context else { return }
         let newFav = FavLocation(context: safeContext)
         newFav.city = cityName
@@ -39,7 +42,7 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
         do {
             try safeContext.save()
         } catch {
-            print("error saving")
+            
         }
     }
     
@@ -47,7 +50,6 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
         do {
             self.favLocations = try context?.fetch(FavLocation.fetchRequest())
             DispatchQueue.main.async {
-                print( self.favLocations ?? "No items" )
                 guard let safeWeatherLocations = self.favLocations else {return}
                 completion(.success(safeWeatherLocations))
             }
@@ -69,7 +71,7 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
         do {
             try safeContext.save()
         } catch {
-            print("error saving")
+            
         }
     }
     
@@ -82,7 +84,6 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
             
             self.currentWeatherIt = try context?.fetch(request)
             DispatchQueue.main.async {
-                print( self.currentWeatherIt ?? "No items" )
                 guard let safeLastCurrent = self.currentWeatherIt else {return}
                 completion(.success(safeLastCurrent))
             }
@@ -111,7 +112,7 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
         do {
             try safeContext.save()
         } catch {
-            print("error saving")
+            
         }
     }
     
@@ -124,13 +125,11 @@ class FavouriteWeatherForecastsRepository: FavouriteWeatherForecastsRepositoryTy
             
             self.weatherForecastIt = try context?.fetch(request)
             DispatchQueue.main.async {
-                print( self.weatherForecastIt ?? "No items" )
                 guard let safeLastForecast = self.weatherForecastIt else {return}
                 completion(.success(safeLastForecast))
             }
         } catch {
             DispatchQueue.main.async { completion(.failure(.internalError)) }
         }
-
     }
 }

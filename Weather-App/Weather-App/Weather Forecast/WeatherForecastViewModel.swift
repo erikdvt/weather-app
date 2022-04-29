@@ -21,7 +21,6 @@ class WeatherForecastViewModel: NSObject {
     private weak var delegate: WeatherForecastViewModelDelegate?
     private var repository: WeatherForecastRepositoryType
     var coreDataRepo: FavouriteWeatherForecastsRepositoryType?
-    //private var
     private let locationManager = CLLocationManager()
     private var weather: CurrentWeatherModel?
     private var forecast: FiveDayForecastModel?
